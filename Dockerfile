@@ -5,7 +5,7 @@
 # --- Stage 1: Build & Dependency Resolution ---
 FROM python:3.12-slim AS builder
 
-WORKDIR /build
+WORKDIR /app
 
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
@@ -24,10 +24,11 @@ COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 COPY pyproject.toml .
 
 # Create virtual environment and install production dependencies
-RUN uv venv /build/.venv --python python3.12 && \
-    uv pip install --no-cache -r pyproject.toml --python /build/.venv/bin/python
+RUN uv venv /app/.venv --python python3.12 && \
+    uv pip install --no-cache -r pyproject.toml --python /app/.venv/bin/python
 
-# --- Stage 2: Minimal Distroless-style Production Runtime ---
+
+# --- Stage 2: Production Runtime ---
 FROM python:3.12-slim AS runtime
 
 WORKDIR /app
@@ -39,7 +40,7 @@ ENV PYTHONUNBUFFERED=1 \
     APP_HOST=0.0.0.0 \
     APP_PORT=8000
 
-# Install runtime system dependencies (libpq for postgres, curl for healthchecks)
+# Install runtime system dependencies
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     libpq5 \
@@ -50,7 +51,7 @@ RUN groupadd -g 10001 appgroup && \
     useradd -u 10001 -g appgroup -s /bin/bash -m appuser
 
 # Copy virtual environment from builder
-COPY --from=builder --chown=appuser:appgroup /build/.venv /app/.venv
+COPY --from=builder --chown=appuser:appgroup /app/.venv /app/.venv
 
 # Copy application source code, configuration, and migrations
 COPY --chown=appuser:appgroup alembic /app/alembic
@@ -69,4 +70,5 @@ EXPOSE 8000
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
     CMD curl -f http://localhost:8000/api/v1/health || exit 1
 
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
+# Use Python to launch Uvicorn instead of the uvicorn executable
+CMD ["python", "-m", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "2"]
