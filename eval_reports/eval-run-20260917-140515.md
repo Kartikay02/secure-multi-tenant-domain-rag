@@ -1,0 +1,50 @@
+# RAG Evaluation Report: eval-run-20260917-140515
+
+> [!NOTE]
+> **SYNTHETIC OFFLINE BENCHMARK NOTICE**: This benchmark was executed using an offline synthetic
+> golden dataset and simulated rule-based/mock LLM judges (`MockLLMJudge`). Reported scores and
+> latencies reflect local CPU memory retriever execution and do NOT represent live production LLM performance.
+
+## Executive Summary
+- **Run ID**: `a7c98771-f03b-4def-abaa-c4c3294392b9`
+- **Dataset**: `domain_rag_production_golden_benchmark` (v1.0.0)
+- **Execution Period**: 2026-09-17T14:05:15.750422+00:00 to 2026-09-17T14:05:15.819421+00:00
+- **Duration**: 0.07s
+- **Total Samples**: 16
+- **Success Count**: 16
+- **Failure Count**: 0 (Failure Rate: 0.0%)
+
+## Benchmark Metrics
+| Metric | Category | Mean | Median | Min | Max | p95 | Limitations & Blind Spots |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **answer_groundedness** | Automated | 0.938 | 1.000 | 0.500 | 1.000 | 1.000 | Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies. |
+| **answer_similarity_f1** | Automated | 0.592 | 0.647 | 0.000 | 1.000 | 1.000 | Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary. |
+| **citation_accuracy** | Automated | 0.781 | 0.750 | 0.500 | 1.000 | 1.000 | Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer. |
+| **context_relevance** | Automated | 0.529 | 0.580 | 0.000 | 1.000 | 1.000 | Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context. |
+| **llm_answer_groundedness** | LLM Judge | 0.920 | 0.920 | 0.920 | 0.920 | 0.920 | LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model. |
+| **llm_answer_quality** | LLM Judge | 0.920 | 0.920 | 0.920 | 0.920 | 0.920 | LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded. |
+| **llm_context_relevance** | LLM Judge | 0.920 | 0.920 | 0.920 | 0.920 | 0.920 | LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs. |
+| **mrr_at_5** | Automated | 0.703 | 1.000 | 0.000 | 1.000 | 1.000 | MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness. |
+| **precision_at_3** | Automated | 0.312 | 0.333 | 0.000 | 1.000 | 1.000 | Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0. |
+| **recall_at_3** | Automated | 0.406 | 0.500 | 0.000 | 1.000 | 1.000 | Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks. |
+
+## Latency Breakdown
+| Metric | Value (ms) |
+| :--- | :--- |
+| **Mean Latency** | 3.92 ms |
+| **Median / p50** | 0.52 ms |
+| **p90 Latency** | 1.10 ms |
+| **p95 Latency** | 14.32 ms |
+| **p99 Latency** | 45.99 ms |
+| **Min / Max** | 0.24 ms / 53.91 ms |
+
+### Pipeline Stage Averages
+| Stage | Mean Duration (ms) |
+| :--- | :--- |
+| `context_assembly_ms` | 3.40 ms |
+| `generation_ms` | 0.19 ms |
+| `preprocessing_ms` | 0.05 ms |
+| `reranking_ms` | 0.00 ms |
+| `retrieval_ms` | 0.13 ms |
+| `total_ms` | 3.92 ms |
+| `validation_ms` | 0.10 ms |

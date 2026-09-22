@@ -1,0 +1,123 @@
+"""Golden evaluation benchmark dataset for the Domain RAG system."""
+
+from app.rag.evaluation.domain import EvaluationDataset, EvaluationSample
+
+DOMAIN_GOLDEN_DATASET = EvaluationDataset(
+    name="domain_rag_production_golden_benchmark",
+    version="1.0.0",
+    description="Production-grade golden evaluation benchmark dataset for Domain RAG pipeline quality assurance.",
+    samples=[
+        EvaluationSample(
+            sample_id="eval-001",
+            question="How does hybrid retrieval combine dense and lexical search?",
+            expected_answer="Hybrid retrieval combines dense vector search with lexical BM25 rankings via Reciprocal Rank Fusion.",
+            expected_sources=["retrieval_architecture.md", "hybrid.py"],
+            metadata={"category": "architecture", "difficulty": "medium"},
+        ),
+        EvaluationSample(
+            sample_id="eval-002",
+            question="What parameters govern HNSW index construction in PGVector?",
+            expected_answer="HNSW index construction is governed by the ef_construction and M parameters which control graph connectivity and search accuracy.",
+            expected_sources=["vector_config.md", "pgvector_hnsw.py"],
+            metadata={"category": "indexing", "difficulty": "hard"},
+        ),
+        EvaluationSample(
+            sample_id="eval-003",
+            question="How does cross-encoder reranking calibrate candidate relevance scores?",
+            expected_answer="Cross-encoder reranking recalibrates relevance scores using deep token-level cross-attention across query and candidate chunks before context assembly.",
+            expected_sources=["reranker_guide.md", "cross_encoder.py"],
+            metadata={"category": "reranking", "difficulty": "hard"},
+        ),
+        EvaluationSample(
+            sample_id="eval-004",
+            question="What happens when the cross-encoder reranker times out or crashes?",
+            expected_answer="The RAG orchestrator applies graceful degradation, falling back to candidate retrieval top-k with rerank_fallback set to true.",
+            expected_sources=["failure_modes.md", "rag_service.py"],
+            metadata={"category": "resilience", "difficulty": "medium"},
+        ),
+        EvaluationSample(
+            sample_id="eval-005",
+            question="How are citations mapped and bounded in context assembly?",
+            expected_answer="Each context document is assigned a unique bracketed citation identifier [N] with strict token budgeting and lost-in-the-middle positioning.",
+            expected_sources=["context_assembly.md", "builder.py"],
+            metadata={"category": "context", "difficulty": "medium"},
+        ),
+        EvaluationSample(
+            sample_id="eval-006",
+            question="How does the grounding validator detect hallucinated claims?",
+            expected_answer="The grounding validator extracts claim sentences, verifies evidence overlap against retrieved context documents, and triggers an honest refusal if unsupported claims exceed threshold.",
+            expected_sources=["grounding_guide.md", "evaluator.py"],
+            metadata={"category": "grounding", "difficulty": "hard"},
+        ),
+        EvaluationSample(
+            sample_id="eval-007",
+            question="What intent does the query classifier assign to 'tl;dr of this document'?",
+            expected_answer="The query classifier assigns the SUMMARY intent and boosts introductory chunk candidates.",
+            expected_sources=["query_understanding.md", "classifier.py"],
+            metadata={"category": "query_understanding", "difficulty": "easy"},
+        ),
+        EvaluationSample(
+            sample_id="eval-008",
+            question="How does multi-tenant isolation enforce document boundaries?",
+            expected_answer="Multi-tenancy is enforced at both the relational database and vector retrieval layers using strict tenant_id filters.",
+            expected_sources=["security_architecture.md", "tenant_guard.py"],
+            metadata={"category": "security", "difficulty": "medium"},
+        ),
+        EvaluationSample(
+            sample_id="eval-009",
+            question="What defense protects against prompt injection and delimiter hijacking?",
+            expected_answer="The PromptGuard inspects queries for delimiter manipulation, system overrides, and prompt hijacking patterns before retrieval.",
+            expected_sources=["security_architecture.md", "prompt_guard.py"],
+            metadata={"category": "security", "difficulty": "easy"},
+        ),
+        EvaluationSample(
+            sample_id="eval-010",
+            question="How does idempotent ingestion detect duplicate documents?",
+            expected_answer="Idempotent ingestion computes SHA-256 cryptographic hashes of uploaded file bytes, skipping parsing and embedding if a hash match exists.",
+            expected_sources=["ingestion_pipeline.md", "validator.py"],
+            metadata={"category": "ingestion", "difficulty": "easy"},
+        ),
+        EvaluationSample(
+            sample_id="eval-011",
+            question="How does CSVParser process tabular datasets?",
+            expected_answer="CSVParser extracts column headers and formats data row by row with column key-value pairs while preserving row count metadata.",
+            expected_sources=["parsers_guide.md", "csv_parser.py"],
+            metadata={"category": "ingestion", "difficulty": "medium"},
+        ),
+        EvaluationSample(
+            sample_id="eval-012",
+            question="How does JSONParser handle nested JSON configuration objects?",
+            expected_answer="JSONParser flattens nested object structures into dot-delimited breadcrumb paths with field-level key-value mappings.",
+            expected_sources=["parsers_guide.md", "json_parser.py"],
+            metadata={"category": "ingestion", "difficulty": "medium"},
+        ),
+        EvaluationSample(
+            sample_id="eval-013",
+            question="What stage latencies are tracked in the RAG response telemetry?",
+            expected_answer="Telemetry tracks preprocessing_ms, retrieval_ms, reranking_ms, context_assembly_ms, generation_ms, validation_ms, and total_ms.",
+            expected_sources=["observability.md", "rag_service.py"],
+            metadata={"category": "observability", "difficulty": "easy"},
+        ),
+        EvaluationSample(
+            sample_id="eval-014",
+            question="What is the difference between dense vector retrieval and BM25 keyword search?",
+            expected_answer="Dense retrieval captures semantic similarities in embedding space, while BM25 keyword search matches exact lexical tokens and term frequencies.",
+            expected_sources=["retrieval_architecture.md", "fusion.py"],
+            metadata={"category": "architecture", "difficulty": "medium"},
+        ),
+        EvaluationSample(
+            sample_id="eval-015",
+            question="What is the airspeed velocity of an unladen swallow in medieval folklore?",
+            expected_answer="I do not have sufficient information in the provided context to answer this question.",
+            expected_sources=[],
+            metadata={"category": "negative_refusal", "difficulty": "hard"},
+        ),
+        EvaluationSample(
+            sample_id="eval-016",
+            question="What are the secret cryptographic private keys for external production banking APIs?",
+            expected_answer="I do not have sufficient information in the provided context to answer this question.",
+            expected_sources=[],
+            metadata={"category": "negative_refusal", "difficulty": "hard"},
+        ),
+    ],
+)

@@ -1,0 +1,2743 @@
+{
+  "run_id": "6543ba79-7e8d-4940-85d6-c9ec61714eeb",
+  "run_name": "eval-run-20260917-034956",
+  "dataset_name": "domain_rag_production_golden_benchmark",
+  "dataset_version": "1.0.0",
+  "started_at": "2026-09-17T03:49:56.025271Z",
+  "completed_at": "2026-09-17T03:49:56.055789Z",
+  "duration_seconds": 0.03,
+  "sample_count": 16,
+  "success_count": 16,
+  "failure_count": 0,
+  "failure_rate": 0.0,
+  "aggregate_metrics": {
+    "recall_at_3": {
+      "metric_name": "recall_at_3",
+      "category": "automated",
+      "mean": 0.4062,
+      "median": 0.5,
+      "min": 0.0,
+      "max": 1.0,
+      "p95": 1.0,
+      "std_dev": 0.3276,
+      "sample_count": 16,
+      "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+    },
+    "precision_at_3": {
+      "metric_name": "precision_at_3",
+      "category": "automated",
+      "mean": 0.3125,
+      "median": 0.3333,
+      "min": 0.0,
+      "max": 1.0,
+      "p95": 1.0,
+      "std_dev": 0.3096,
+      "sample_count": 16,
+      "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+    },
+    "mrr_at_5": {
+      "metric_name": "mrr_at_5",
+      "category": "automated",
+      "mean": 0.7031,
+      "median": 1.0,
+      "min": 0.0,
+      "max": 1.0,
+      "p95": 1.0,
+      "std_dev": 0.4584,
+      "sample_count": 16,
+      "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+    },
+    "context_relevance": {
+      "metric_name": "context_relevance",
+      "category": "automated",
+      "mean": 0.5294,
+      "median": 0.58,
+      "min": 0.0,
+      "max": 1.0,
+      "p95": 1.0,
+      "std_dev": 0.3631,
+      "sample_count": 16,
+      "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+    },
+    "answer_groundedness": {
+      "metric_name": "answer_groundedness",
+      "category": "automated",
+      "mean": 0.9375,
+      "median": 1.0,
+      "min": 0.5,
+      "max": 1.0,
+      "p95": 1.0,
+      "std_dev": 0.1708,
+      "sample_count": 16,
+      "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+    },
+    "citation_accuracy": {
+      "metric_name": "citation_accuracy",
+      "category": "automated",
+      "mean": 0.7812,
+      "median": 0.75,
+      "min": 0.5,
+      "max": 1.0,
+      "p95": 1.0,
+      "std_dev": 0.1548,
+      "sample_count": 16,
+      "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+    },
+    "answer_similarity_f1": {
+      "metric_name": "answer_similarity_f1",
+      "category": "automated",
+      "mean": 0.592,
+      "median": 0.6468,
+      "min": 0.0,
+      "max": 1.0,
+      "p95": 1.0,
+      "std_dev": 0.3603,
+      "sample_count": 16,
+      "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+    },
+    "llm_context_relevance": {
+      "metric_name": "llm_context_relevance",
+      "category": "llm_judge",
+      "mean": 0.92,
+      "median": 0.92,
+      "min": 0.92,
+      "max": 0.92,
+      "p95": 0.92,
+      "std_dev": 0.0,
+      "sample_count": 16,
+      "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+    },
+    "llm_answer_groundedness": {
+      "metric_name": "llm_answer_groundedness",
+      "category": "llm_judge",
+      "mean": 0.92,
+      "median": 0.92,
+      "min": 0.92,
+      "max": 0.92,
+      "p95": 0.92,
+      "std_dev": 0.0,
+      "sample_count": 16,
+      "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+    },
+    "llm_answer_quality": {
+      "metric_name": "llm_answer_quality",
+      "category": "llm_judge",
+      "mean": 0.92,
+      "median": 0.92,
+      "min": 0.92,
+      "max": 0.92,
+      "p95": 0.92,
+      "std_dev": 0.0,
+      "sample_count": 16,
+      "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+    }
+  },
+  "latency_summary": {
+    "mean_ms": 1.41,
+    "median_ms": 0.59,
+    "p50_ms": 0.59,
+    "p90_ms": 0.99,
+    "p95_ms": 4.16,
+    "p99_ms": 11.67,
+    "min_ms": 0.21,
+    "max_ms": 13.55,
+    "stage_averages": {
+      "preprocessing_ms": 0.05,
+      "retrieval_ms": 0.15,
+      "reranking_ms": 0.0,
+      "context_assembly_ms": 0.84,
+      "generation_ms": 0.22,
+      "validation_ms": 0.11,
+      "total_ms": 1.41
+    }
+  },
+  "sample_results": [
+    {
+      "sample_id": "eval-001",
+      "question": "How does hybrid retrieval combine dense and lexical search?",
+      "answer": "Based on the provided documentation [1], Hybrid retrieval combines dense vector search with lexical BM25 rankings via Reciprocal Rank Fusion [1]. Dense retrieval captures semantic similarities in embedding space, while BM25 keyword search matches exact lexical tokens and term frequencies [5].",
+      "expected_answer": "Hybrid retrieval combines dense vector search with lexical BM25 rankings via Reciprocal Rank Fusion.",
+      "expected_sources": [
+        "retrieval_architecture.md",
+        "hybrid.py"
+      ],
+      "retrieved_sources": [
+        "retrieval_architecture.md",
+        "f71b382c-ecbb-5ff5-814b-44040f9647b5",
+        "70ef91c9-d897-56f4-99a4-e6630cf066c0",
+        "retrieval_architecture.md",
+        "f71b382c-ecbb-5ff5-814b-44040f9647b5",
+        "91fa1a96-6365-59a9-8d32-7fa187e50aa7"
+      ],
+      "metrics": {
+        "recall_at_3": {
+          "metric_name": "recall_at_3",
+          "category": "automated",
+          "score": 0.5,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "retrieval_architecture.md"
+            ]
+          },
+          "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+        },
+        "precision_at_3": {
+          "metric_name": "precision_at_3",
+          "category": "automated",
+          "score": 0.3333333333333333,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "retrieval_architecture.md"
+            ]
+          },
+          "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+        },
+        "mrr_at_5": {
+          "metric_name": "mrr_at_5",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "k": 5,
+            "first_hit_rank": 1,
+            "reciprocal_rank": 1.0
+          },
+          "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+        },
+        "context_relevance": {
+          "metric_name": "context_relevance",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "query_terms_count": 6,
+            "covered_terms_count": 6,
+            "coverage_ratio": 1.0,
+            "chunk_density": 1.0,
+            "chunks_evaluated": 2
+          },
+          "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+        },
+        "answer_groundedness": {
+          "metric_name": "answer_groundedness",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "total_claims": 2,
+            "supported_claims": 2,
+            "claim_support_ratio": 1.0,
+            "pipeline_grounded_flag": true,
+            "claim_details": [
+              {
+                "claim": "Based on the provided documentation , Hybrid retrieval combines dense vector sea",
+                "supported": true,
+                "overlap_ratio": 0.812
+              },
+              {
+                "claim": "Dense retrieval captures semantic similarities in embedding space, while BM25 ke",
+                "supported": true,
+                "overlap_ratio": 1.0
+              }
+            ]
+          },
+          "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+        },
+        "citation_accuracy": {
+          "metric_name": "citation_accuracy",
+          "category": "automated",
+          "score": 0.75,
+          "details": {
+            "cited_ids": [
+              1,
+              1,
+              5
+            ],
+            "valid_citations_count": 3,
+            "validity_ratio": 1.0,
+            "alignment_score": 0.5
+          },
+          "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+        },
+        "answer_similarity_f1": {
+          "metric_name": "answer_similarity_f1",
+          "category": "automated",
+          "score": 0.5385,
+          "details": {
+            "precision": 0.3684,
+            "recall": 1.0,
+            "f1": 0.5385,
+            "overlapping_tokens": 14
+          },
+          "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+        },
+        "llm_context_relevance": {
+          "metric_name": "llm_context_relevance",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 1
+            }
+          },
+          "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+        },
+        "llm_answer_groundedness": {
+          "metric_name": "llm_answer_groundedness",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 2
+            }
+          },
+          "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+        },
+        "llm_answer_quality": {
+          "metric_name": "llm_answer_quality",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 3
+            }
+          },
+          "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+        }
+      },
+      "latency_ms": 13.549799999964307,
+      "stage_latencies": {
+        "preprocessing_ms": 0.19,
+        "retrieval_ms": 0.21,
+        "reranking_ms": 0.0,
+        "context_assembly_ms": 10.84,
+        "generation_ms": 1.85,
+        "validation_ms": 0.41,
+        "total_ms": 13.55
+      },
+      "error": null
+    },
+    {
+      "sample_id": "eval-002",
+      "question": "What parameters govern HNSW index construction in PGVector?",
+      "answer": "Based on the provided documentation [1], HNSW index construction is governed by the ef_construction and M parameters which control graph connectivity and search accuracy [1].",
+      "expected_answer": "HNSW index construction is governed by the ef_construction and M parameters which control graph connectivity and search accuracy.",
+      "expected_sources": [
+        "vector_config.md",
+        "pgvector_hnsw.py"
+      ],
+      "retrieved_sources": [
+        "vector_config.md",
+        "d8710ae3-694a-510d-823c-e4d5098ebc78",
+        "34c6b569-5702-5644-b296-7c4e3c450273"
+      ],
+      "metrics": {
+        "recall_at_3": {
+          "metric_name": "recall_at_3",
+          "category": "automated",
+          "score": 0.5,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "vector_config.md"
+            ]
+          },
+          "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+        },
+        "precision_at_3": {
+          "metric_name": "precision_at_3",
+          "category": "automated",
+          "score": 0.3333333333333333,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "vector_config.md"
+            ]
+          },
+          "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+        },
+        "mrr_at_5": {
+          "metric_name": "mrr_at_5",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "k": 5,
+            "first_hit_rank": 1,
+            "reciprocal_rank": 1.0
+          },
+          "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+        },
+        "context_relevance": {
+          "metric_name": "context_relevance",
+          "category": "automated",
+          "score": 0.8833333333333333,
+          "details": {
+            "query_terms_count": 6,
+            "covered_terms_count": 5,
+            "coverage_ratio": 0.8333,
+            "chunk_density": 1.0,
+            "chunks_evaluated": 1
+          },
+          "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+        },
+        "answer_groundedness": {
+          "metric_name": "answer_groundedness",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "total_claims": 1,
+            "supported_claims": 1,
+            "claim_support_ratio": 1.0,
+            "pipeline_grounded_flag": true,
+            "claim_details": [
+              {
+                "claim": "Based on the provided documentation , HNSW index construction is governed by the",
+                "supported": true,
+                "overlap_ratio": 0.786
+              }
+            ]
+          },
+          "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+        },
+        "citation_accuracy": {
+          "metric_name": "citation_accuracy",
+          "category": "automated",
+          "score": 0.75,
+          "details": {
+            "cited_ids": [
+              1,
+              1
+            ],
+            "valid_citations_count": 2,
+            "validity_ratio": 1.0,
+            "alignment_score": 0.5
+          },
+          "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+        },
+        "answer_similarity_f1": {
+          "metric_name": "answer_similarity_f1",
+          "category": "automated",
+          "score": 0.878,
+          "details": {
+            "precision": 0.7826,
+            "recall": 1.0,
+            "f1": 0.878,
+            "overlapping_tokens": 18
+          },
+          "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+        },
+        "llm_context_relevance": {
+          "metric_name": "llm_context_relevance",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 4
+            }
+          },
+          "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+        },
+        "llm_answer_groundedness": {
+          "metric_name": "llm_answer_groundedness",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 5
+            }
+          },
+          "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+        },
+        "llm_answer_quality": {
+          "metric_name": "llm_answer_quality",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 6
+            }
+          },
+          "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+        }
+      },
+      "latency_ms": 0.8274000001620152,
+      "stage_latencies": {
+        "preprocessing_ms": 0.07,
+        "retrieval_ms": 0.19,
+        "reranking_ms": 0.0,
+        "context_assembly_ms": 0.21,
+        "generation_ms": 0.17,
+        "validation_ms": 0.13,
+        "total_ms": 0.83
+      },
+      "error": null
+    },
+    {
+      "sample_id": "eval-003",
+      "question": "How does cross-encoder reranking calibrate candidate relevance scores?",
+      "answer": "Based on the provided documentation [1], Cross-encoder reranking recalibrates relevance scores using deep token-level cross-attention across query and candidate chunks before context assembly [1].",
+      "expected_answer": "Cross-encoder reranking recalibrates relevance scores using deep token-level cross-attention across query and candidate chunks before context assembly.",
+      "expected_sources": [
+        "reranker_guide.md",
+        "cross_encoder.py"
+      ],
+      "retrieved_sources": [
+        "reranker_guide.md",
+        "6ea5605f-cbcb-5791-8728-f050039854d7",
+        "d3e4e35b-fc5e-59d0-8923-652633c3fa37"
+      ],
+      "metrics": {
+        "recall_at_3": {
+          "metric_name": "recall_at_3",
+          "category": "automated",
+          "score": 0.5,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "reranker_guide.md"
+            ]
+          },
+          "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+        },
+        "precision_at_3": {
+          "metric_name": "precision_at_3",
+          "category": "automated",
+          "score": 0.3333333333333333,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "reranker_guide.md"
+            ]
+          },
+          "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+        },
+        "mrr_at_5": {
+          "metric_name": "mrr_at_5",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "k": 5,
+            "first_hit_rank": 1,
+            "reciprocal_rank": 1.0
+          },
+          "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+        },
+        "context_relevance": {
+          "metric_name": "context_relevance",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "query_terms_count": 6,
+            "covered_terms_count": 6,
+            "coverage_ratio": 1.0,
+            "chunk_density": 1.0,
+            "chunks_evaluated": 1
+          },
+          "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+        },
+        "answer_groundedness": {
+          "metric_name": "answer_groundedness",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "total_claims": 1,
+            "supported_claims": 1,
+            "claim_support_ratio": 1.0,
+            "pipeline_grounded_flag": true,
+            "claim_details": [
+              {
+                "claim": "Based on the provided documentation , Cross-encoder reranking recalibrates relev",
+                "supported": true,
+                "overlap_ratio": 0.833
+              }
+            ]
+          },
+          "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+        },
+        "citation_accuracy": {
+          "metric_name": "citation_accuracy",
+          "category": "automated",
+          "score": 0.75,
+          "details": {
+            "cited_ids": [
+              1,
+              1
+            ],
+            "valid_citations_count": 2,
+            "validity_ratio": 1.0,
+            "alignment_score": 0.5
+          },
+          "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+        },
+        "answer_similarity_f1": {
+          "metric_name": "answer_similarity_f1",
+          "category": "automated",
+          "score": 0.8889,
+          "details": {
+            "precision": 0.8,
+            "recall": 1.0,
+            "f1": 0.8889,
+            "overlapping_tokens": 20
+          },
+          "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+        },
+        "llm_context_relevance": {
+          "metric_name": "llm_context_relevance",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 7
+            }
+          },
+          "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+        },
+        "llm_answer_groundedness": {
+          "metric_name": "llm_answer_groundedness",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 8
+            }
+          },
+          "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+        },
+        "llm_answer_quality": {
+          "metric_name": "llm_answer_quality",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 9
+            }
+          },
+          "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+        }
+      },
+      "latency_ms": 0.7157000000006519,
+      "stage_latencies": {
+        "preprocessing_ms": 0.07,
+        "retrieval_ms": 0.2,
+        "reranking_ms": 0.0,
+        "context_assembly_ms": 0.19,
+        "generation_ms": 0.14,
+        "validation_ms": 0.09,
+        "total_ms": 0.72
+      },
+      "error": null
+    },
+    {
+      "sample_id": "eval-004",
+      "question": "What happens when the cross-encoder reranker times out or crashes?",
+      "answer": "Based on the provided documentation [1], Cross-encoder reranking recalibrates relevance scores using deep token-level cross-attention across query and candidate chunks before context assembly [1].",
+      "expected_answer": "The RAG orchestrator applies graceful degradation, falling back to candidate retrieval top-k with rerank_fallback set to true.",
+      "expected_sources": [
+        "failure_modes.md",
+        "rag_service.py"
+      ],
+      "retrieved_sources": [
+        "reranker_guide.md",
+        "6ea5605f-cbcb-5791-8728-f050039854d7",
+        "d3e4e35b-fc5e-59d0-8923-652633c3fa37"
+      ],
+      "metrics": {
+        "recall_at_3": {
+          "metric_name": "recall_at_3",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 0,
+            "hits": []
+          },
+          "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+        },
+        "precision_at_3": {
+          "metric_name": "precision_at_3",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 0,
+            "hits": []
+          },
+          "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+        },
+        "mrr_at_5": {
+          "metric_name": "mrr_at_5",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "k": 5,
+            "first_hit_rank": 0,
+            "reciprocal_rank": 0.0
+          },
+          "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+        },
+        "context_relevance": {
+          "metric_name": "context_relevance",
+          "category": "automated",
+          "score": 0.43999999999999995,
+          "details": {
+            "query_terms_count": 5,
+            "covered_terms_count": 1,
+            "coverage_ratio": 0.2,
+            "chunk_density": 1.0,
+            "chunks_evaluated": 1
+          },
+          "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+        },
+        "answer_groundedness": {
+          "metric_name": "answer_groundedness",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "total_claims": 1,
+            "supported_claims": 1,
+            "claim_support_ratio": 1.0,
+            "pipeline_grounded_flag": true,
+            "claim_details": [
+              {
+                "claim": "Based on the provided documentation , Cross-encoder reranking recalibrates relev",
+                "supported": true,
+                "overlap_ratio": 0.833
+              }
+            ]
+          },
+          "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+        },
+        "citation_accuracy": {
+          "metric_name": "citation_accuracy",
+          "category": "automated",
+          "score": 0.5,
+          "details": {
+            "cited_ids": [
+              1,
+              1
+            ],
+            "valid_citations_count": 2,
+            "validity_ratio": 1.0,
+            "alignment_score": 0.0
+          },
+          "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+        },
+        "answer_similarity_f1": {
+          "metric_name": "answer_similarity_f1",
+          "category": "automated",
+          "score": 0.093,
+          "details": {
+            "precision": 0.08,
+            "recall": 0.1111,
+            "f1": 0.093,
+            "overlapping_tokens": 2
+          },
+          "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+        },
+        "llm_context_relevance": {
+          "metric_name": "llm_context_relevance",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 10
+            }
+          },
+          "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+        },
+        "llm_answer_groundedness": {
+          "metric_name": "llm_answer_groundedness",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 11
+            }
+          },
+          "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+        },
+        "llm_answer_quality": {
+          "metric_name": "llm_answer_quality",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 12
+            }
+          },
+          "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+        }
+      },
+      "latency_ms": 0.5332999999154708,
+      "stage_latencies": {
+        "preprocessing_ms": 0.04,
+        "retrieval_ms": 0.19,
+        "reranking_ms": 0.0,
+        "context_assembly_ms": 0.11,
+        "generation_ms": 0.09,
+        "validation_ms": 0.07,
+        "total_ms": 0.53
+      },
+      "error": null
+    },
+    {
+      "sample_id": "eval-005",
+      "question": "How are citations mapped and bounded in context assembly?",
+      "answer": "Based on the provided documentation [1], Cross-encoder reranking recalibrates relevance scores using deep token-level cross-attention across query and candidate chunks before context assembly [1]. Each context document is assigned a unique bracketed citation identifier [N] with strict token budgeting and lost-in-the-middle positioning [3].",
+      "expected_answer": "Each context document is assigned a unique bracketed citation identifier [N] with strict token budgeting and lost-in-the-middle positioning.",
+      "expected_sources": [
+        "context_assembly.md",
+        "builder.py"
+      ],
+      "retrieved_sources": [
+        "reranker_guide.md",
+        "6ea5605f-cbcb-5791-8728-f050039854d7",
+        "d3e4e35b-fc5e-59d0-8923-652633c3fa37",
+        "context_assembly.md",
+        "190b8c83-367b-54e3-bc61-7594360b43ba",
+        "7457c432-f528-52fb-9d6f-3e616416eb48"
+      ],
+      "metrics": {
+        "recall_at_3": {
+          "metric_name": "recall_at_3",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 0,
+            "hits": []
+          },
+          "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+        },
+        "precision_at_3": {
+          "metric_name": "precision_at_3",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 0,
+            "hits": []
+          },
+          "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+        },
+        "mrr_at_5": {
+          "metric_name": "mrr_at_5",
+          "category": "automated",
+          "score": 0.25,
+          "details": {
+            "k": 5,
+            "first_hit_rank": 4,
+            "reciprocal_rank": 0.25
+          },
+          "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+        },
+        "context_relevance": {
+          "metric_name": "context_relevance",
+          "category": "automated",
+          "score": 0.58,
+          "details": {
+            "query_terms_count": 5,
+            "covered_terms_count": 2,
+            "coverage_ratio": 0.4,
+            "chunk_density": 1.0,
+            "chunks_evaluated": 2
+          },
+          "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+        },
+        "answer_groundedness": {
+          "metric_name": "answer_groundedness",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "total_claims": 2,
+            "supported_claims": 2,
+            "claim_support_ratio": 1.0,
+            "pipeline_grounded_flag": true,
+            "claim_details": [
+              {
+                "claim": "Based on the provided documentation , Cross-encoder reranking recalibrates relev",
+                "supported": true,
+                "overlap_ratio": 0.833
+              },
+              {
+                "claim": "Each context document is assigned a unique bracketed citation identifier [N] wit",
+                "supported": true,
+                "overlap_ratio": 1.0
+              }
+            ]
+          },
+          "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+        },
+        "citation_accuracy": {
+          "metric_name": "citation_accuracy",
+          "category": "automated",
+          "score": 0.75,
+          "details": {
+            "cited_ids": [
+              1,
+              1,
+              3
+            ],
+            "valid_citations_count": 3,
+            "validity_ratio": 1.0,
+            "alignment_score": 0.5
+          },
+          "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+        },
+        "answer_similarity_f1": {
+          "metric_name": "answer_similarity_f1",
+          "category": "automated",
+          "score": 0.6269,
+          "details": {
+            "precision": 0.4565,
+            "recall": 1.0,
+            "f1": 0.6269,
+            "overlapping_tokens": 21
+          },
+          "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+        },
+        "llm_context_relevance": {
+          "metric_name": "llm_context_relevance",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 13
+            }
+          },
+          "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+        },
+        "llm_answer_groundedness": {
+          "metric_name": "llm_answer_groundedness",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 14
+            }
+          },
+          "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+        },
+        "llm_answer_quality": {
+          "metric_name": "llm_answer_quality",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 15
+            }
+          },
+          "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+        }
+      },
+      "latency_ms": 0.7661999998163083,
+      "stage_latencies": {
+        "preprocessing_ms": 0.05,
+        "retrieval_ms": 0.14,
+        "reranking_ms": 0.0,
+        "context_assembly_ms": 0.29,
+        "generation_ms": 0.15,
+        "validation_ms": 0.11,
+        "total_ms": 0.77
+      },
+      "error": null
+    },
+    {
+      "sample_id": "eval-006",
+      "question": "How does the grounding validator detect hallucinated claims?",
+      "answer": "Based on the provided documentation [1], The grounding validator extracts claim sentences, verifies evidence overlap against retrieved context documents, and triggers an honest refusal if unsupported claims exceed threshold [1].",
+      "expected_answer": "The grounding validator extracts claim sentences, verifies evidence overlap against retrieved context documents, and triggers an honest refusal if unsupported claims exceed threshold.",
+      "expected_sources": [
+        "grounding_guide.md",
+        "evaluator.py"
+      ],
+      "retrieved_sources": [
+        "grounding_guide.md",
+        "412d77dc-d34a-5178-acd0-9eb483388f96",
+        "6068bd38-2e65-5be4-9295-acc54c5defd5"
+      ],
+      "metrics": {
+        "recall_at_3": {
+          "metric_name": "recall_at_3",
+          "category": "automated",
+          "score": 0.5,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "grounding_guide.md"
+            ]
+          },
+          "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+        },
+        "precision_at_3": {
+          "metric_name": "precision_at_3",
+          "category": "automated",
+          "score": 0.3333333333333333,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "grounding_guide.md"
+            ]
+          },
+          "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+        },
+        "mrr_at_5": {
+          "metric_name": "mrr_at_5",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "k": 5,
+            "first_hit_rank": 1,
+            "reciprocal_rank": 1.0
+          },
+          "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+        },
+        "context_relevance": {
+          "metric_name": "context_relevance",
+          "category": "automated",
+          "score": 0.72,
+          "details": {
+            "query_terms_count": 5,
+            "covered_terms_count": 3,
+            "coverage_ratio": 0.6,
+            "chunk_density": 1.0,
+            "chunks_evaluated": 1
+          },
+          "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+        },
+        "answer_groundedness": {
+          "metric_name": "answer_groundedness",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "total_claims": 1,
+            "supported_claims": 1,
+            "claim_support_ratio": 1.0,
+            "pipeline_grounded_flag": true,
+            "claim_details": [
+              {
+                "claim": "Based on the provided documentation , The grounding validator extracts claim sen",
+                "supported": true,
+                "overlap_ratio": 0.857
+              }
+            ]
+          },
+          "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+        },
+        "citation_accuracy": {
+          "metric_name": "citation_accuracy",
+          "category": "automated",
+          "score": 0.75,
+          "details": {
+            "cited_ids": [
+              1,
+              1
+            ],
+            "valid_citations_count": 2,
+            "validity_ratio": 1.0,
+            "alignment_score": 0.5
+          },
+          "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+        },
+        "answer_similarity_f1": {
+          "metric_name": "answer_similarity_f1",
+          "category": "automated",
+          "score": 0.902,
+          "details": {
+            "precision": 0.8214,
+            "recall": 1.0,
+            "f1": 0.902,
+            "overlapping_tokens": 23
+          },
+          "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+        },
+        "llm_context_relevance": {
+          "metric_name": "llm_context_relevance",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 16
+            }
+          },
+          "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+        },
+        "llm_answer_groundedness": {
+          "metric_name": "llm_answer_groundedness",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 17
+            }
+          },
+          "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+        },
+        "llm_answer_quality": {
+          "metric_name": "llm_answer_quality",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 18
+            }
+          },
+          "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+        }
+      },
+      "latency_ms": 0.465299999632407,
+      "stage_latencies": {
+        "preprocessing_ms": 0.03,
+        "retrieval_ms": 0.13,
+        "reranking_ms": 0.0,
+        "context_assembly_ms": 0.1,
+        "generation_ms": 0.1,
+        "validation_ms": 0.08,
+        "total_ms": 0.47
+      },
+      "error": null
+    },
+    {
+      "sample_id": "eval-007",
+      "question": "What intent does the query classifier assign to 'tl;dr of this document'?",
+      "answer": "Based on the provided documentation [1], The query classifier assigns the SUMMARY intent and boosts introductory chunk candidates [1]. Each context document is assigned a unique bracketed citation identifier [N] with strict token budgeting and lost-in-the-middle positioning [6].",
+      "expected_answer": "The query classifier assigns the SUMMARY intent and boosts introductory chunk candidates.",
+      "expected_sources": [
+        "query_understanding.md",
+        "classifier.py"
+      ],
+      "retrieved_sources": [
+        "query_understanding.md",
+        "05215cac-6e63-5295-9a7b-d79715e67146",
+        "8a00bd87-381b-53ab-84b5-3570dd1c2b8d",
+        "context_assembly.md",
+        "190b8c83-367b-54e3-bc61-7594360b43ba",
+        "7457c432-f528-52fb-9d6f-3e616416eb48"
+      ],
+      "metrics": {
+        "recall_at_3": {
+          "metric_name": "recall_at_3",
+          "category": "automated",
+          "score": 0.5,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "query_understanding.md"
+            ]
+          },
+          "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+        },
+        "precision_at_3": {
+          "metric_name": "precision_at_3",
+          "category": "automated",
+          "score": 0.3333333333333333,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "query_understanding.md"
+            ]
+          },
+          "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+        },
+        "mrr_at_5": {
+          "metric_name": "mrr_at_5",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "k": 5,
+            "first_hit_rank": 1,
+            "reciprocal_rank": 1.0
+          },
+          "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+        },
+        "context_relevance": {
+          "metric_name": "context_relevance",
+          "category": "automated",
+          "score": 0.8,
+          "details": {
+            "query_terms_count": 7,
+            "covered_terms_count": 5,
+            "coverage_ratio": 0.7143,
+            "chunk_density": 1.0,
+            "chunks_evaluated": 2
+          },
+          "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+        },
+        "answer_groundedness": {
+          "metric_name": "answer_groundedness",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "total_claims": 2,
+            "supported_claims": 2,
+            "claim_support_ratio": 1.0,
+            "pipeline_grounded_flag": true,
+            "claim_details": [
+              {
+                "claim": "Based on the provided documentation , The query classifier assigns the SUMMARY i",
+                "supported": true,
+                "overlap_ratio": 0.75
+              },
+              {
+                "claim": "Each context document is assigned a unique bracketed citation identifier [N] wit",
+                "supported": true,
+                "overlap_ratio": 1.0
+              }
+            ]
+          },
+          "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+        },
+        "citation_accuracy": {
+          "metric_name": "citation_accuracy",
+          "category": "automated",
+          "score": 0.75,
+          "details": {
+            "cited_ids": [
+              1,
+              1,
+              6
+            ],
+            "valid_citations_count": 3,
+            "validity_ratio": 1.0,
+            "alignment_score": 0.5
+          },
+          "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+        },
+        "answer_similarity_f1": {
+          "metric_name": "answer_similarity_f1",
+          "category": "automated",
+          "score": 0.48,
+          "details": {
+            "precision": 0.3158,
+            "recall": 1.0,
+            "f1": 0.48,
+            "overlapping_tokens": 12
+          },
+          "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+        },
+        "llm_context_relevance": {
+          "metric_name": "llm_context_relevance",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 19
+            }
+          },
+          "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+        },
+        "llm_answer_groundedness": {
+          "metric_name": "llm_answer_groundedness",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 20
+            }
+          },
+          "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+        },
+        "llm_answer_quality": {
+          "metric_name": "llm_answer_quality",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 21
+            }
+          },
+          "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+        }
+      },
+      "latency_ms": 0.9110999999393243,
+      "stage_latencies": {
+        "preprocessing_ms": 0.03,
+        "retrieval_ms": 0.11,
+        "reranking_ms": 0.0,
+        "context_assembly_ms": 0.44,
+        "generation_ms": 0.21,
+        "validation_ms": 0.1,
+        "total_ms": 0.91
+      },
+      "error": null
+    },
+    {
+      "sample_id": "eval-008",
+      "question": "How does multi-tenant isolation enforce document boundaries?",
+      "answer": "I cannot answer this question with sufficient confidence based on the available documentation.",
+      "expected_answer": "Multi-tenancy is enforced at both the relational database and vector retrieval layers using strict tenant_id filters.",
+      "expected_sources": [
+        "security_architecture.md",
+        "tenant_guard.py"
+      ],
+      "retrieved_sources": [],
+      "metrics": {
+        "recall_at_3": {
+          "metric_name": "recall_at_3",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 0,
+            "hits_count": 0,
+            "hits": []
+          },
+          "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+        },
+        "precision_at_3": {
+          "metric_name": "precision_at_3",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "k": 3,
+            "retrieved_count": 0,
+            "hits_count": 0
+          },
+          "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+        },
+        "mrr_at_5": {
+          "metric_name": "mrr_at_5",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "k": 5,
+            "first_hit_rank": 0,
+            "reciprocal_rank": 0.0
+          },
+          "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+        },
+        "context_relevance": {
+          "metric_name": "context_relevance",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "query_terms_count": 5,
+            "chunks_count": 0
+          },
+          "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+        },
+        "answer_groundedness": {
+          "metric_name": "answer_groundedness",
+          "category": "automated",
+          "score": 0.5,
+          "details": {
+            "fallback_applied": true,
+            "insufficient_context": true,
+            "reason": "Conservative refusal or insufficient context flagged"
+          },
+          "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+        },
+        "citation_accuracy": {
+          "metric_name": "citation_accuracy",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "refusal_mode": true,
+            "cited_count": 0
+          },
+          "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+        },
+        "answer_similarity_f1": {
+          "metric_name": "answer_similarity_f1",
+          "category": "automated",
+          "score": 0.0667,
+          "details": {
+            "precision": 0.0769,
+            "recall": 0.0588,
+            "f1": 0.0667,
+            "overlapping_tokens": 1
+          },
+          "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+        },
+        "llm_context_relevance": {
+          "metric_name": "llm_context_relevance",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 22
+            }
+          },
+          "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+        },
+        "llm_answer_groundedness": {
+          "metric_name": "llm_answer_groundedness",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 23
+            }
+          },
+          "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+        },
+        "llm_answer_quality": {
+          "metric_name": "llm_answer_quality",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 24
+            }
+          },
+          "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+        }
+      },
+      "latency_ms": 0.39879999985714676,
+      "stage_latencies": {
+        "preprocessing_ms": 0.04,
+        "retrieval_ms": 0.11,
+        "reranking_ms": 0.0,
+        "context_assembly_ms": 0.0,
+        "generation_ms": 0.04,
+        "validation_ms": 0.19,
+        "total_ms": 0.4
+      },
+      "error": null
+    },
+    {
+      "sample_id": "eval-009",
+      "question": "What defense protects against prompt injection and delimiter hijacking?",
+      "answer": "Based on the provided documentation [1], The PromptGuard inspects queries for delimiter manipulation, system overrides, and prompt hijacking patterns before retrieval [1]. The grounding validator extracts claim sentences, verifies evidence overlap against retrieved context documents, and triggers an honest refusal if unsupported claims exceed threshold [2].",
+      "expected_answer": "The PromptGuard inspects queries for delimiter manipulation, system overrides, and prompt hijacking patterns before retrieval.",
+      "expected_sources": [
+        "security_architecture.md",
+        "prompt_guard.py"
+      ],
+      "retrieved_sources": [
+        "security_architecture.md",
+        "bb754de6-49af-512f-a669-d97308abfafb",
+        "e8b35da7-7982-5ad8-8ec7-5f9c96ae4015",
+        "grounding_guide.md",
+        "412d77dc-d34a-5178-acd0-9eb483388f96",
+        "6068bd38-2e65-5be4-9295-acc54c5defd5"
+      ],
+      "metrics": {
+        "recall_at_3": {
+          "metric_name": "recall_at_3",
+          "category": "automated",
+          "score": 0.5,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "security_architecture.md"
+            ]
+          },
+          "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+        },
+        "precision_at_3": {
+          "metric_name": "precision_at_3",
+          "category": "automated",
+          "score": 0.3333333333333333,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "security_architecture.md"
+            ]
+          },
+          "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+        },
+        "mrr_at_5": {
+          "metric_name": "mrr_at_5",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "k": 5,
+            "first_hit_rank": 1,
+            "reciprocal_rank": 1.0
+          },
+          "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+        },
+        "context_relevance": {
+          "metric_name": "context_relevance",
+          "category": "automated",
+          "score": 0.5,
+          "details": {
+            "query_terms_count": 6,
+            "covered_terms_count": 3,
+            "coverage_ratio": 0.5,
+            "chunk_density": 0.5,
+            "chunks_evaluated": 2
+          },
+          "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+        },
+        "answer_groundedness": {
+          "metric_name": "answer_groundedness",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "total_claims": 2,
+            "supported_claims": 2,
+            "claim_support_ratio": 1.0,
+            "pipeline_grounded_flag": true,
+            "claim_details": [
+              {
+                "claim": "Based on the provided documentation , The PromptGuard inspects queries for delim",
+                "supported": true,
+                "overlap_ratio": 0.786
+              },
+              {
+                "claim": "The grounding validator extracts claim sentences, verifies evidence overlap agai",
+                "supported": true,
+                "overlap_ratio": 1.0
+              }
+            ]
+          },
+          "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+        },
+        "citation_accuracy": {
+          "metric_name": "citation_accuracy",
+          "category": "automated",
+          "score": 0.75,
+          "details": {
+            "cited_ids": [
+              1,
+              1,
+              2
+            ],
+            "valid_citations_count": 3,
+            "validity_ratio": 1.0,
+            "alignment_score": 0.5
+          },
+          "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+        },
+        "answer_similarity_f1": {
+          "metric_name": "answer_similarity_f1",
+          "category": "automated",
+          "score": 0.5172,
+          "details": {
+            "precision": 0.3488,
+            "recall": 1.0,
+            "f1": 0.5172,
+            "overlapping_tokens": 15
+          },
+          "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+        },
+        "llm_context_relevance": {
+          "metric_name": "llm_context_relevance",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 25
+            }
+          },
+          "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+        },
+        "llm_answer_groundedness": {
+          "metric_name": "llm_answer_groundedness",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 26
+            }
+          },
+          "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+        },
+        "llm_answer_quality": {
+          "metric_name": "llm_answer_quality",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 27
+            }
+          },
+          "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+        }
+      },
+      "latency_ms": 0.9403999993082834,
+      "stage_latencies": {
+        "preprocessing_ms": 0.06,
+        "retrieval_ms": 0.22,
+        "reranking_ms": 0.0,
+        "context_assembly_ms": 0.32,
+        "generation_ms": 0.17,
+        "validation_ms": 0.13,
+        "total_ms": 0.94
+      },
+      "error": null
+    },
+    {
+      "sample_id": "eval-010",
+      "question": "How does idempotent ingestion detect duplicate documents?",
+      "answer": "Based on the provided documentation [1], Idempotent ingestion computes SHA-256 cryptographic hashes of uploaded file bytes, skipping parsing and embedding if a hash match exists [1].",
+      "expected_answer": "Idempotent ingestion computes SHA-256 cryptographic hashes of uploaded file bytes, skipping parsing and embedding if a hash match exists.",
+      "expected_sources": [
+        "ingestion_pipeline.md",
+        "validator.py"
+      ],
+      "retrieved_sources": [
+        "ingestion_pipeline.md",
+        "23bd2e6e-acb0-5cb2-b0e9-06122b6eef11",
+        "333c94c7-2b00-5bb2-8132-cd01cc7a3499"
+      ],
+      "metrics": {
+        "recall_at_3": {
+          "metric_name": "recall_at_3",
+          "category": "automated",
+          "score": 0.5,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "ingestion_pipeline.md"
+            ]
+          },
+          "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+        },
+        "precision_at_3": {
+          "metric_name": "precision_at_3",
+          "category": "automated",
+          "score": 0.3333333333333333,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "ingestion_pipeline.md"
+            ]
+          },
+          "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+        },
+        "mrr_at_5": {
+          "metric_name": "mrr_at_5",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "k": 5,
+            "first_hit_rank": 1,
+            "reciprocal_rank": 1.0
+          },
+          "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+        },
+        "context_relevance": {
+          "metric_name": "context_relevance",
+          "category": "automated",
+          "score": 0.58,
+          "details": {
+            "query_terms_count": 5,
+            "covered_terms_count": 2,
+            "coverage_ratio": 0.4,
+            "chunk_density": 1.0,
+            "chunks_evaluated": 1
+          },
+          "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+        },
+        "answer_groundedness": {
+          "metric_name": "answer_groundedness",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "total_claims": 1,
+            "supported_claims": 1,
+            "claim_support_ratio": 1.0,
+            "pipeline_grounded_flag": true,
+            "claim_details": [
+              {
+                "claim": "Based on the provided documentation , Idempotent ingestion computes SHA-256 cryp",
+                "supported": true,
+                "overlap_ratio": 0.833
+              }
+            ]
+          },
+          "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+        },
+        "citation_accuracy": {
+          "metric_name": "citation_accuracy",
+          "category": "automated",
+          "score": 0.75,
+          "details": {
+            "cited_ids": [
+              1,
+              1
+            ],
+            "valid_citations_count": 2,
+            "validity_ratio": 1.0,
+            "alignment_score": 0.5
+          },
+          "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+        },
+        "answer_similarity_f1": {
+          "metric_name": "answer_similarity_f1",
+          "category": "automated",
+          "score": 0.8889,
+          "details": {
+            "precision": 0.8,
+            "recall": 1.0,
+            "f1": 0.8889,
+            "overlapping_tokens": 20
+          },
+          "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+        },
+        "llm_context_relevance": {
+          "metric_name": "llm_context_relevance",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 28
+            }
+          },
+          "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+        },
+        "llm_answer_groundedness": {
+          "metric_name": "llm_answer_groundedness",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 29
+            }
+          },
+          "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+        },
+        "llm_answer_quality": {
+          "metric_name": "llm_answer_quality",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 30
+            }
+          },
+          "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+        }
+      },
+      "latency_ms": 0.4569000002447865,
+      "stage_latencies": {
+        "preprocessing_ms": 0.04,
+        "retrieval_ms": 0.11,
+        "reranking_ms": 0.0,
+        "context_assembly_ms": 0.12,
+        "generation_ms": 0.09,
+        "validation_ms": 0.07,
+        "total_ms": 0.46
+      },
+      "error": null
+    },
+    {
+      "sample_id": "eval-011",
+      "question": "How does CSVParser process tabular datasets?",
+      "answer": "I cannot answer this question with sufficient confidence based on the available documentation.",
+      "expected_answer": "CSVParser extracts column headers and formats data row by row with column key-value pairs while preserving row count metadata.",
+      "expected_sources": [
+        "parsers_guide.md",
+        "csv_parser.py"
+      ],
+      "retrieved_sources": [],
+      "metrics": {
+        "recall_at_3": {
+          "metric_name": "recall_at_3",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 0,
+            "hits_count": 0,
+            "hits": []
+          },
+          "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+        },
+        "precision_at_3": {
+          "metric_name": "precision_at_3",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "k": 3,
+            "retrieved_count": 0,
+            "hits_count": 0
+          },
+          "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+        },
+        "mrr_at_5": {
+          "metric_name": "mrr_at_5",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "k": 5,
+            "first_hit_rank": 0,
+            "reciprocal_rank": 0.0
+          },
+          "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+        },
+        "context_relevance": {
+          "metric_name": "context_relevance",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "query_terms_count": 4,
+            "chunks_count": 0
+          },
+          "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+        },
+        "answer_groundedness": {
+          "metric_name": "answer_groundedness",
+          "category": "automated",
+          "score": 0.5,
+          "details": {
+            "fallback_applied": true,
+            "insufficient_context": true,
+            "reason": "Conservative refusal or insufficient context flagged"
+          },
+          "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+        },
+        "citation_accuracy": {
+          "metric_name": "citation_accuracy",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "refusal_mode": true,
+            "cited_count": 0
+          },
+          "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+        },
+        "answer_similarity_f1": {
+          "metric_name": "answer_similarity_f1",
+          "category": "automated",
+          "score": 0.0606,
+          "details": {
+            "precision": 0.0769,
+            "recall": 0.05,
+            "f1": 0.0606,
+            "overlapping_tokens": 1
+          },
+          "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+        },
+        "llm_context_relevance": {
+          "metric_name": "llm_context_relevance",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 31
+            }
+          },
+          "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+        },
+        "llm_answer_groundedness": {
+          "metric_name": "llm_answer_groundedness",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 32
+            }
+          },
+          "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+        },
+        "llm_answer_quality": {
+          "metric_name": "llm_answer_quality",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 33
+            }
+          },
+          "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+        }
+      },
+      "latency_ms": 0.34300000061193714,
+      "stage_latencies": {
+        "preprocessing_ms": 0.03,
+        "retrieval_ms": 0.11,
+        "reranking_ms": 0.0,
+        "context_assembly_ms": 0.0,
+        "generation_ms": 0.04,
+        "validation_ms": 0.14,
+        "total_ms": 0.34
+      },
+      "error": null
+    },
+    {
+      "sample_id": "eval-012",
+      "question": "How does JSONParser handle nested JSON configuration objects?",
+      "answer": "Based on the provided documentation [1], JSONParser flattens nested object structures into dot-delimited breadcrumb paths with field-level key-value mappings [1].",
+      "expected_answer": "JSONParser flattens nested object structures into dot-delimited breadcrumb paths with field-level key-value mappings.",
+      "expected_sources": [
+        "parsers_guide.md",
+        "json_parser.py"
+      ],
+      "retrieved_sources": [
+        "parsers_guide.md",
+        "2e070b5b-2793-5662-9fe7-22546f305cb7",
+        "1ad00b12-d307-5091-908c-02bae1211c35"
+      ],
+      "metrics": {
+        "recall_at_3": {
+          "metric_name": "recall_at_3",
+          "category": "automated",
+          "score": 0.5,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "parsers_guide.md"
+            ]
+          },
+          "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+        },
+        "precision_at_3": {
+          "metric_name": "precision_at_3",
+          "category": "automated",
+          "score": 0.3333333333333333,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "parsers_guide.md"
+            ]
+          },
+          "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+        },
+        "mrr_at_5": {
+          "metric_name": "mrr_at_5",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "k": 5,
+            "first_hit_rank": 1,
+            "reciprocal_rank": 1.0
+          },
+          "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+        },
+        "context_relevance": {
+          "metric_name": "context_relevance",
+          "category": "automated",
+          "score": 0.6499999999999999,
+          "details": {
+            "query_terms_count": 6,
+            "covered_terms_count": 3,
+            "coverage_ratio": 0.5,
+            "chunk_density": 1.0,
+            "chunks_evaluated": 1
+          },
+          "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+        },
+        "answer_groundedness": {
+          "metric_name": "answer_groundedness",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "total_claims": 1,
+            "supported_claims": 1,
+            "claim_support_ratio": 1.0,
+            "pipeline_grounded_flag": true,
+            "claim_details": [
+              {
+                "claim": "Based on the provided documentation , JSONParser flattens nested object structur",
+                "supported": true,
+                "overlap_ratio": 0.786
+              }
+            ]
+          },
+          "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+        },
+        "citation_accuracy": {
+          "metric_name": "citation_accuracy",
+          "category": "automated",
+          "score": 0.75,
+          "details": {
+            "cited_ids": [
+              1,
+              1
+            ],
+            "valid_citations_count": 2,
+            "validity_ratio": 1.0,
+            "alignment_score": 0.5
+          },
+          "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+        },
+        "answer_similarity_f1": {
+          "metric_name": "answer_similarity_f1",
+          "category": "automated",
+          "score": 0.8649,
+          "details": {
+            "precision": 0.7619,
+            "recall": 1.0,
+            "f1": 0.8649,
+            "overlapping_tokens": 16
+          },
+          "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+        },
+        "llm_context_relevance": {
+          "metric_name": "llm_context_relevance",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 34
+            }
+          },
+          "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+        },
+        "llm_answer_groundedness": {
+          "metric_name": "llm_answer_groundedness",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 35
+            }
+          },
+          "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+        },
+        "llm_answer_quality": {
+          "metric_name": "llm_answer_quality",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 36
+            }
+          },
+          "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+        }
+      },
+      "latency_ms": 0.47059999997145496,
+      "stage_latencies": {
+        "preprocessing_ms": 0.03,
+        "retrieval_ms": 0.11,
+        "reranking_ms": 0.0,
+        "context_assembly_ms": 0.12,
+        "generation_ms": 0.09,
+        "validation_ms": 0.08,
+        "total_ms": 0.47
+      },
+      "error": null
+    },
+    {
+      "sample_id": "eval-013",
+      "question": "What stage latencies are tracked in the RAG response telemetry?",
+      "answer": "Based on the provided documentation [1], The RAG orchestrator applies graceful degradation, falling back to candidate retrieval top-k with rerank_fallback set to true [1].",
+      "expected_answer": "Telemetry tracks preprocessing_ms, retrieval_ms, reranking_ms, context_assembly_ms, generation_ms, validation_ms, and total_ms.",
+      "expected_sources": [
+        "observability.md",
+        "rag_service.py"
+      ],
+      "retrieved_sources": [
+        "failure_modes.md",
+        "793708f2-a92c-5a57-8a50-eaa601df4122",
+        "a4b24389-d9d0-5ac6-8b33-b550201e8c4d"
+      ],
+      "metrics": {
+        "recall_at_3": {
+          "metric_name": "recall_at_3",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 0,
+            "hits": []
+          },
+          "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+        },
+        "precision_at_3": {
+          "metric_name": "precision_at_3",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 0,
+            "hits": []
+          },
+          "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+        },
+        "mrr_at_5": {
+          "metric_name": "mrr_at_5",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "k": 5,
+            "first_hit_rank": 0,
+            "reciprocal_rank": 0.0
+          },
+          "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+        },
+        "context_relevance": {
+          "metric_name": "context_relevance",
+          "category": "automated",
+          "score": 0.41666666666666663,
+          "details": {
+            "query_terms_count": 6,
+            "covered_terms_count": 1,
+            "coverage_ratio": 0.1667,
+            "chunk_density": 1.0,
+            "chunks_evaluated": 1
+          },
+          "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+        },
+        "answer_groundedness": {
+          "metric_name": "answer_groundedness",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "total_claims": 1,
+            "supported_claims": 1,
+            "claim_support_ratio": 1.0,
+            "pipeline_grounded_flag": true,
+            "claim_details": [
+              {
+                "claim": "Based on the provided documentation , The RAG orchestrator applies graceful degr",
+                "supported": true,
+                "overlap_ratio": 0.812
+              }
+            ]
+          },
+          "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+        },
+        "citation_accuracy": {
+          "metric_name": "citation_accuracy",
+          "category": "automated",
+          "score": 0.5,
+          "details": {
+            "cited_ids": [
+              1,
+              1
+            ],
+            "valid_citations_count": 2,
+            "validity_ratio": 1.0,
+            "alignment_score": 0.0
+          },
+          "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+        },
+        "answer_similarity_f1": {
+          "metric_name": "answer_similarity_f1",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "precision": 0.0,
+            "recall": 0.0,
+            "f1": 0.0
+          },
+          "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+        },
+        "llm_context_relevance": {
+          "metric_name": "llm_context_relevance",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 37
+            }
+          },
+          "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+        },
+        "llm_answer_groundedness": {
+          "metric_name": "llm_answer_groundedness",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 38
+            }
+          },
+          "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+        },
+        "llm_answer_quality": {
+          "metric_name": "llm_answer_quality",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 39
+            }
+          },
+          "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+        }
+      },
+      "latency_ms": 0.6371999998009414,
+      "stage_latencies": {
+        "preprocessing_ms": 0.06,
+        "retrieval_ms": 0.15,
+        "reranking_ms": 0.0,
+        "context_assembly_ms": 0.19,
+        "generation_ms": 0.12,
+        "validation_ms": 0.08,
+        "total_ms": 0.64
+      },
+      "error": null
+    },
+    {
+      "sample_id": "eval-014",
+      "question": "What is the difference between dense vector retrieval and BM25 keyword search?",
+      "answer": "Based on the provided documentation [1], Dense retrieval captures semantic similarities in embedding space, while BM25 keyword search matches exact lexical tokens and term frequencies [1]. Hybrid retrieval combines dense vector search with lexical BM25 rankings via Reciprocal Rank Fusion [6].",
+      "expected_answer": "Dense retrieval captures semantic similarities in embedding space, while BM25 keyword search matches exact lexical tokens and term frequencies.",
+      "expected_sources": [
+        "retrieval_architecture.md",
+        "fusion.py"
+      ],
+      "retrieved_sources": [
+        "retrieval_architecture.md",
+        "f71b382c-ecbb-5ff5-814b-44040f9647b5",
+        "91fa1a96-6365-59a9-8d32-7fa187e50aa7",
+        "retrieval_architecture.md",
+        "f71b382c-ecbb-5ff5-814b-44040f9647b5",
+        "70ef91c9-d897-56f4-99a4-e6630cf066c0"
+      ],
+      "metrics": {
+        "recall_at_3": {
+          "metric_name": "recall_at_3",
+          "category": "automated",
+          "score": 0.5,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "retrieval_architecture.md"
+            ]
+          },
+          "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+        },
+        "precision_at_3": {
+          "metric_name": "precision_at_3",
+          "category": "automated",
+          "score": 0.3333333333333333,
+          "details": {
+            "k": 3,
+            "expected_count": 2,
+            "retrieved_count": 3,
+            "hits_count": 1,
+            "hits": [
+              "retrieval_architecture.md"
+            ]
+          },
+          "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+        },
+        "mrr_at_5": {
+          "metric_name": "mrr_at_5",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "k": 5,
+            "first_hit_rank": 1,
+            "reciprocal_rank": 1.0
+          },
+          "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+        },
+        "context_relevance": {
+          "metric_name": "context_relevance",
+          "category": "automated",
+          "score": 0.8999999999999999,
+          "details": {
+            "query_terms_count": 7,
+            "covered_terms_count": 6,
+            "coverage_ratio": 0.8571,
+            "chunk_density": 1.0,
+            "chunks_evaluated": 2
+          },
+          "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+        },
+        "answer_groundedness": {
+          "metric_name": "answer_groundedness",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "total_claims": 2,
+            "supported_claims": 2,
+            "claim_support_ratio": 1.0,
+            "pipeline_grounded_flag": true,
+            "claim_details": [
+              {
+                "claim": "Based on the provided documentation , Dense retrieval captures semantic similari",
+                "supported": true,
+                "overlap_ratio": 0.842
+              },
+              {
+                "claim": "Hybrid retrieval combines dense vector search with lexical BM25 rankings via Rec",
+                "supported": true,
+                "overlap_ratio": 1.0
+              }
+            ]
+          },
+          "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+        },
+        "citation_accuracy": {
+          "metric_name": "citation_accuracy",
+          "category": "automated",
+          "score": 0.75,
+          "details": {
+            "cited_ids": [
+              1,
+              1,
+              6
+            ],
+            "valid_citations_count": 3,
+            "validity_ratio": 1.0,
+            "alignment_score": 0.5
+          },
+          "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+        },
+        "answer_similarity_f1": {
+          "metric_name": "answer_similarity_f1",
+          "category": "automated",
+          "score": 0.6667,
+          "details": {
+            "precision": 0.5,
+            "recall": 1.0,
+            "f1": 0.6667,
+            "overlapping_tokens": 19
+          },
+          "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+        },
+        "llm_context_relevance": {
+          "metric_name": "llm_context_relevance",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 40
+            }
+          },
+          "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+        },
+        "llm_answer_groundedness": {
+          "metric_name": "llm_answer_groundedness",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 41
+            }
+          },
+          "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+        },
+        "llm_answer_quality": {
+          "metric_name": "llm_answer_quality",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 42
+            }
+          },
+          "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+        }
+      },
+      "latency_ms": 1.03190000027098,
+      "stage_latencies": {
+        "preprocessing_ms": 0.04,
+        "retrieval_ms": 0.14,
+        "reranking_ms": 0.0,
+        "context_assembly_ms": 0.5,
+        "generation_ms": 0.22,
+        "validation_ms": 0.11,
+        "total_ms": 1.03
+      },
+      "error": null
+    },
+    {
+      "sample_id": "eval-015",
+      "question": "What is the airspeed velocity of an unladen swallow in medieval folklore?",
+      "answer": "I do not have sufficient information in the provided context to answer this question.",
+      "expected_answer": "I do not have sufficient information in the provided context to answer this question.",
+      "expected_sources": [],
+      "retrieved_sources": [],
+      "metrics": {
+        "recall_at_3": {
+          "metric_name": "recall_at_3",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "expected_count": 0,
+            "retrieved_top_k": []
+          },
+          "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+        },
+        "precision_at_3": {
+          "metric_name": "precision_at_3",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "k": 3,
+            "retrieved_count": 0,
+            "hits_count": 0
+          },
+          "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+        },
+        "mrr_at_5": {
+          "metric_name": "mrr_at_5",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "k": 5,
+            "first_hit_rank": 0
+          },
+          "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+        },
+        "context_relevance": {
+          "metric_name": "context_relevance",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "query_terms_count": 6,
+            "chunks_count": 0
+          },
+          "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+        },
+        "answer_groundedness": {
+          "metric_name": "answer_groundedness",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "fallback_applied": false,
+            "insufficient_context": true,
+            "reason": "Conservative refusal or insufficient context flagged"
+          },
+          "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+        },
+        "citation_accuracy": {
+          "metric_name": "citation_accuracy",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "refusal_mode": true,
+            "cited_count": 0
+          },
+          "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+        },
+        "answer_similarity_f1": {
+          "metric_name": "answer_similarity_f1",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "overlapping_tokens": 14
+          },
+          "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+        },
+        "llm_context_relevance": {
+          "metric_name": "llm_context_relevance",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 43
+            }
+          },
+          "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+        },
+        "llm_answer_groundedness": {
+          "metric_name": "llm_answer_groundedness",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 44
+            }
+          },
+          "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+        },
+        "llm_answer_quality": {
+          "metric_name": "llm_answer_quality",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 45
+            }
+          },
+          "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+        }
+      },
+      "latency_ms": 0.24359999952139333,
+      "stage_latencies": {
+        "preprocessing_ms": 0.05,
+        "retrieval_ms": 0.12,
+        "reranking_ms": 0.0,
+        "context_assembly_ms": 0.0,
+        "generation_ms": 0.03,
+        "validation_ms": 0.01,
+        "total_ms": 0.24
+      },
+      "error": null
+    },
+    {
+      "sample_id": "eval-016",
+      "question": "What are the secret cryptographic private keys for external production banking APIs?",
+      "answer": "I do not have sufficient information in the provided context to answer this question.",
+      "expected_answer": "I do not have sufficient information in the provided context to answer this question.",
+      "expected_sources": [],
+      "retrieved_sources": [],
+      "metrics": {
+        "recall_at_3": {
+          "metric_name": "recall_at_3",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "expected_count": 0,
+            "retrieved_top_k": []
+          },
+          "limitations": "Recall@K assumes comprehensive ground-truth labeling. If the index contains unannotated relevant chunks, they do not contribute to recall. Does not penalize irrelevant retrieved chunks."
+        },
+        "precision_at_3": {
+          "metric_name": "precision_at_3",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "k": 3,
+            "retrieved_count": 0,
+            "hits_count": 0
+          },
+          "limitations": "Precision@K penalizes valid documents that are absent from gold annotations (false negatives in ground truth). If fewer than K relevant documents exist in the corpus, maximum achievable precision is strictly < 1.0."
+        },
+        "mrr_at_5": {
+          "metric_name": "mrr_at_5",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "k": 5,
+            "first_hit_rank": 0
+          },
+          "limitations": "MRR measures exclusively the rank of the first hit. It ignores whether subsequent chunks are relevant and provides no measure of multi-chunk evidentiary completeness."
+        },
+        "context_relevance": {
+          "metric_name": "context_relevance",
+          "category": "automated",
+          "score": 0.0,
+          "details": {
+            "query_terms_count": 8,
+            "chunks_count": 0
+          },
+          "limitations": "Lexical context relevance evaluates keyword presence and does not evaluate deeper semantic intent or deductive relevance. May reward chunks that contain query keywords out of context."
+        },
+        "answer_groundedness": {
+          "metric_name": "answer_groundedness",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "fallback_applied": false,
+            "insufficient_context": true,
+            "reason": "Conservative refusal or insufficient context flagged"
+          },
+          "limitations": "Automated groundedness relies on token overlap, phrase preservation, and guardrail verdicts. It cannot execute deep Natural Language Inference (NLI) to identify logical contradictions or fallacies."
+        },
+        "citation_accuracy": {
+          "metric_name": "citation_accuracy",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "refusal_mode": true,
+            "cited_count": 0
+          },
+          "limitations": "Citation accuracy verifies citation index existence and source ID alignment with expected sources. It cannot verify whether the cited sentence is logically necessary to support the answer."
+        },
+        "answer_similarity_f1": {
+          "metric_name": "answer_similarity_f1",
+          "category": "automated",
+          "score": 1.0,
+          "details": {
+            "precision": 1.0,
+            "recall": 1.0,
+            "f1": 1.0,
+            "overlapping_tokens": 14
+          },
+          "limitations": "Token-level F1 similarity penalizes valid semantic paraphrasing, concise answers, and differing sentence structures that convey equivalent factual meaning using alternate vocabulary."
+        },
+        "llm_context_relevance": {
+          "metric_name": "llm_context_relevance",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 46
+            }
+          },
+          "limitations": "LLM judge for context relevance is subject to position bias (overweighting first/last chunks), verbosity bias, and stochastic inconsistency across runs."
+        },
+        "llm_answer_groundedness": {
+          "metric_name": "llm_answer_groundedness",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 47
+            }
+          },
+          "limitations": "LLM judge for groundedness may suffer from self-preference bias, can overlook subtle numerical inaccuracies, and depends heavily on the reasoning capacity of the judge model."
+        },
+        "llm_answer_quality": {
+          "metric_name": "llm_answer_quality",
+          "category": "llm_judge",
+          "score": 0.92,
+          "details": {
+            "reasoning": "Evaluated via deterministic mock judge.",
+            "judge_metadata": {
+              "mock": true,
+              "calls": 48
+            }
+          },
+          "limitations": "LLM answer quality judge exhibits verbosity bias (favoring longer answers) and may reward stylistically pleasing text even if slightly ungrounded."
+        }
+      },
+      "latency_ms": 0.21130000004632166,
+      "stage_latencies": {
+        "preprocessing_ms": 0.04,
+        "retrieval_ms": 0.12,
+        "reranking_ms": 0.0,
+        "context_assembly_ms": 0.0,
+        "generation_ms": 0.03,
+        "validation_ms": 0.01,
+        "total_ms": 0.21
+      },
+      "error": null
+    }
+  ],
+  "metadata": {}
+}
