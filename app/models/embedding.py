@@ -29,7 +29,7 @@ class ChunkEmbedding(Base, UUIDPrimaryKeyMixin, TimestampMixin):
         ForeignKey("documents.id", ondelete="CASCADE"),
         nullable=False,
     )
-    embedding: Mapped[list[float]] = mapped_column(Vector(), nullable=False)
+    embedding: Mapped[list[float]] = mapped_column(Vector(384), nullable=False)
     model: Mapped[str] = mapped_column(String(128), nullable=False)
     dimension: Mapped[int] = mapped_column(Integer, nullable=False)
     metadata_json: Mapped[dict[str, Any]] = mapped_column(JSONType, default=dict, nullable=False)

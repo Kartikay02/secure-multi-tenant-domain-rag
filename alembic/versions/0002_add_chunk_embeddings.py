@@ -31,7 +31,7 @@ def upgrade() -> None:
         sa.Column("id", sa.Uuid(), nullable=False),
         sa.Column("chunk_id", sa.Uuid(), nullable=False),
         sa.Column("document_id", sa.Uuid(), nullable=False),
-        sa.Column("embedding", Vector(), nullable=False),
+        sa.Column("embedding", Vector(384), nullable=False),
         sa.Column("model", sa.String(length=128), nullable=False),
         sa.Column("dimension", sa.Integer(), nullable=False),
         sa.Column(
