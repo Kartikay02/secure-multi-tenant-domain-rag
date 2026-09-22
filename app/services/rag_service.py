@@ -96,7 +96,7 @@ class RAGOrchestratorService(RAGOrchestratorProtocol):
         self.query_router = query_router or QueryRouter(
             default_retrieval_top_k=default_retrieval_top_k,
             default_rerank_top_k=default_rerank_top_k,
-            default_score_threshold=default_grounding_threshold,
+            default_score_threshold=app_settings.retrieval.similarity_threshold,
         )
         self.telemetry_hook = telemetry_hook or get_telemetry_hook()
         self.prompt_guard = prompt_guard
