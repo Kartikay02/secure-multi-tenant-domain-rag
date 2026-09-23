@@ -4,7 +4,7 @@
 
 ### Retrieval-Augmented Generation with hybrid search, grounding, citations & multi-tenant security
 
-## Live Demo
+
 
 🔗 [Live Demo](https://secure-multi-tenant-domain-rag.onrender.com)
 
