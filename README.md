@@ -4,6 +4,10 @@
 
 ### Retrieval-Augmented Generation with hybrid search, grounding, citations & multi-tenant security
 
+## Live Demo
+
+🔗 [Live Demo](https://secure-multi-tenant-domain-rag.onrender.com)
+
 **FastAPI** · **PostgreSQL + pgvector** · **Redis** · **Hybrid Retrieval** · **RRF + Reranking** · **Multi-Tenant**
 
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?logo=python&logoColor=white)](#)
@@ -17,7 +21,7 @@
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](#-license)
 
 > ⚠️ **Integrity note:** this README deliberately contains **no hard-coded test counts, benchmark scores, latency figures or "production-ready" claims**.
-> All such numbers must be generated from the *current* commit and recorded in [Verification Results](#-verification-results). See [Verification Policy](#-verification-policy).
+> All such numbers must be generated from the _current_ commit and recorded in [Verification Results](#-verification-results). See [Verification Policy](#-verification-policy).
 
 </div>
 
@@ -54,7 +58,7 @@ Clean / hexagonal layering. Retrieval, storage, auth, generation and infrastruct
 
 **🔍 Retrieval**
 
-Hybrid **dense + lexical** search, fused with **Reciprocal Rank Fusion**, then **reranked** — so exact tokens *and* semantic meaning both survive.
+Hybrid **dense + lexical** search, fused with **Reciprocal Rank Fusion**, then **reranked** — so exact tokens _and_ semantic meaning both survive.
 
 </td>
 </tr>
@@ -71,6 +75,7 @@ Pick your path — you don't need to read all of it.
 <td width="33%" valign="top">
 
 ### 👔 Recruiter / Reviewer
+
 **~3 minutes**
 
 1. [At a Glance](#-at-a-glance)
@@ -83,6 +88,7 @@ Pick your path — you don't need to read all of it.
 <td width="33%" valign="top">
 
 ### 🛠️ Engineer / Contributor
+
 **~15 minutes**
 
 1. [Quick Start](#-quick-start)
@@ -96,6 +102,7 @@ Pick your path — you don't need to read all of it.
 <td width="33%" valign="top">
 
 ### 🔐 Security Reviewer
+
 **~10 minutes**
 
 1. [Security Architecture](#-security-architecture)
@@ -119,6 +126,7 @@ Pick your path — you don't need to read all of it.
 <br>
 
 **Getting Started**
+
 - [📊 At a Glance](#-at-a-glance)
 - [🧭 Reader's Guide](#-readers-guide)
 - [❓ Problem Statement](#-problem-statement)
@@ -128,6 +136,7 @@ Pick your path — you don't need to read all of it.
 - [🚀 Quick Start](#-quick-start)
 
 **Architecture**
+
 - [🏗️ System Architecture](#-system-architecture)
 - [🔄 The RAG Pipeline](#-the-rag-pipeline)
 - [🧠 Query Processing](#-query-processing)
@@ -141,6 +150,7 @@ Pick your path — you don't need to read all of it.
 - [📥 Document Ingestion](#-document-ingestion)
 
 **Security**
+
 - [🛡️ Security Architecture](#-security-architecture)
 - [🔑 Authentication & Authorization](#-authentication--authorization)
 - [🏢 Multi-Tenant Architecture](#-multi-tenant-architecture)
@@ -154,6 +164,7 @@ Pick your path — you don't need to read all of it.
 - [✅ Security Verification](#-security-verification)
 
 **Infrastructure & Operations**
+
 - [🗄️ Storage Architecture](#-storage-architecture)
 - [🐘 PostgreSQL & pgvector](#-postgresql--pgvector)
 - [⚡ Redis](#-redis)
@@ -165,12 +176,14 @@ Pick your path — you don't need to read all of it.
 - [⚠️ Error Handling](#-error-handling)
 
 **Interface & Configuration**
+
 - [🌐 API](#-api)
 - [📨 Example Request](#-example-request)
 - [⚙️ Environment Configuration](#-environment-configuration)
 - [🔐 Security Configuration](#-security-configuration)
 
 **Quality & Evaluation**
+
 - [📊 Evaluation](#-evaluation)
 - [🧪 Evaluation Methodology](#-evaluation-methodology)
 - [🧪 Testing](#-testing)
@@ -180,6 +193,7 @@ Pick your path — you don't need to read all of it.
 - [🔁 Reproducibility](#-reproducibility)
 
 **Reference**
+
 - [🤔 Architectural Decisions](#-architectural-decisions)
 - [⚖️ Engineering Tradeoffs](#-engineering-tradeoffs)
 - [📁 Project Structure](#-project-structure)
@@ -198,7 +212,7 @@ Pick your path — you don't need to read all of it.
 
 # ❓ Problem Statement
 
-Traditional LLM applications can produce **plausible answers even when the required information does not exist** in the model's context. The output *sounds* correct, which makes it harder to catch than an obvious failure.
+Traditional LLM applications can produce **plausible answers even when the required information does not exist** in the model's context. The output _sounds_ correct, which makes it harder to catch than an obvious failure.
 
 A domain-specific RAG application addresses this by introducing an **explicit retrieval layer** between the question and the answer:
 
@@ -212,7 +226,7 @@ flowchart TD
     GG --> AC["Answer + Citations"]
 ```
 
-> 💡 **The objective is not only to retrieve relevant information** — it is to *control what information reaches the generation model* and to **verify that the produced response can be traced back to retrieved evidence.**
+> 💡 **The objective is not only to retrieve relevant information** — it is to _control what information reaches the generation model_ and to **verify that the produced response can be traced back to retrieved evidence.**
 
 ---
 
@@ -220,59 +234,59 @@ flowchart TD
 
 The project is designed around ten goals:
 
-| # | Objective |
-|:-:|---|
-| 1 | Provide **domain-specific retrieval** |
-| 2 | **Reduce unsupported** model generation |
-| 3 | Keep **tenant data isolated** |
-| 4 | Apply **authorization before** sensitive operations |
-| 5 | **Secure document ingestion** end to end |
-| 6 | Support both **local development** and **production storage** |
-| 7 | Support **distributed rate limiting** |
-| 8 | Keep **infrastructure components replaceable** |
-| 9 | Provide **traceable citations** |
-| 10 | Make **evaluation and verification repeatable** |
+|  #  | Objective                                                     |
+| :-: | ------------------------------------------------------------- |
+|  1  | Provide **domain-specific retrieval**                         |
+|  2  | **Reduce unsupported** model generation                       |
+|  3  | Keep **tenant data isolated**                                 |
+|  4  | Apply **authorization before** sensitive operations           |
+|  5  | **Secure document ingestion** end to end                      |
+|  6  | Support both **local development** and **production storage** |
+|  7  | Support **distributed rate limiting**                         |
+|  8  | Keep **infrastructure components replaceable**                |
+|  9  | Provide **traceable citations**                               |
+| 10  | Make **evaluation and verification repeatable**               |
 
 ---
 
 # ✨ Key Features
 
-| Area | Capability |
-|---|---|
-| 🌐 **API** | FastAPI with automatic OpenAPI schema |
-| 🏛️ **Architecture** | Clean / Hexagonal — independently testable layers |
-| 🔍 **Retrieval** | Hybrid dense + lexical search |
-| ⚖️ **Ranking** | Reciprocal Rank Fusion (RRF) + optional reranking |
-| 🧭 **Routing** | Semantic query routing |
-| 🗄️ **Storage** | PostgreSQL + pgvector |
-| 💻 **Dev storage** | SQLite + in-memory vector store |
-| ⚡ **Cache / Rate limit** | Redis (distributed backend) |
-| 🔐 **Security** | Multi-tenant authorization, server-side authority |
-| 🔗 **Grounding** | Citation-aware generation; **cannot be client-disabled** |
-| 📥 **Documents** | Secure upload, validation and ingestion |
-| 📊 **Evaluation** | Offline evaluation pipeline with golden datasets |
-| 🐳 **Deployment** | Docker-oriented, dev/prod separation |
-| 📈 **Observability** | Structured logging, health & readiness probes, retrieval tracing |
+| Area                      | Capability                                                       |
+| ------------------------- | ---------------------------------------------------------------- |
+| 🌐 **API**                | FastAPI with automatic OpenAPI schema                            |
+| 🏛️ **Architecture**       | Clean / Hexagonal — independently testable layers                |
+| 🔍 **Retrieval**          | Hybrid dense + lexical search                                    |
+| ⚖️ **Ranking**            | Reciprocal Rank Fusion (RRF) + optional reranking                |
+| 🧭 **Routing**            | Semantic query routing                                           |
+| 🗄️ **Storage**            | PostgreSQL + pgvector                                            |
+| 💻 **Dev storage**        | SQLite + in-memory vector store                                  |
+| ⚡ **Cache / Rate limit** | Redis (distributed backend)                                      |
+| 🔐 **Security**           | Multi-tenant authorization, server-side authority                |
+| 🔗 **Grounding**          | Citation-aware generation; **cannot be client-disabled**         |
+| 📥 **Documents**          | Secure upload, validation and ingestion                          |
+| 📊 **Evaluation**         | Offline evaluation pipeline with golden datasets                 |
+| 🐳 **Deployment**         | Docker-oriented, dev/prod separation                             |
+| 📈 **Observability**      | Structured logging, health & readiness probes, retrieval tracing |
 
 ---
 
 # 🧰 Tech Stack
 
-| Layer | Technology | Purpose |
-|---|---|---|
-| **API** | FastAPI | HTTP interface, validation, OpenAPI docs |
-| **Language** | Python 3.11+ | Core implementation |
-| **Database** | PostgreSQL | Metadata, tenants, documents, chunks |
-| **Vector search** | pgvector | Dense embedding storage & similarity search |
-| **Dev database** | SQLite | Zero-setup local development |
-| **Cache / limits** | Redis | Distributed rate limiting, shared state |
-| **Embeddings** | Configurable provider | Query & chunk vectorisation |
-| **Generation** | Configurable LLM provider | Grounded answer synthesis |
-| **Reranking** | Pluggable reranker | Precision improvement over candidates |
-| **Packaging** | Docker / Docker Compose | Reproducible environments |
-| **Testing** | pytest | Unit, integration, security suites |
-| **Linting** | Ruff | Fast static linting |
-| **Typing** | mypy | Static type verification |
+| Layer              | Technology                | Purpose                                     |
+| ------------------ | ------------------------- | ------------------------------------------- |
+| **API**            | FastAPI                   | HTTP interface, validation, OpenAPI docs    |
+| **Language**       | Python 3.11+              | Core implementation                         |
+| **Database**       | PostgreSQL                | Metadata, tenants, documents, chunks        |
+| **Vector search**  | pgvector                  | Dense embedding storage & similarity search |
+| **Dev database**   | SQLite                    | Zero-setup local development                |
+| **Cache / limits** | Redis                     | Distributed rate limiting, shared state     |
+| **Embeddings**     | Configurable provider     | Query & chunk vectorisation                 |
+| **Generation**     | Configurable LLM provider | Grounded answer synthesis                   |
+| **Reranking**      | Pluggable reranker        | Precision improvement over candidates       |
+| **Packaging**      | Docker / Docker Compose   | Reproducible environments                   |
+| **Testing**        | pytest                    | Unit, integration, security suites          |
+| **Linting**        | Ruff                      | Fast static linting                         |
+| **Typing**         | mypy                      | Static type verification                    |
 
 > ℹ️ Pin exact versions in `requirements.txt` / `pyproject.toml` and keep this table in sync with them.
 
@@ -384,7 +398,7 @@ The project uses **hybrid retrieval** rather than depending exclusively on dense
 
 ### 🧲 Dense (semantic) retrieval
 
-**Strong when:** the wording of the query *differs* from the wording in the source document.
+**Strong when:** the wording of the query _differs_ from the wording in the source document.
 
 Handles paraphrase, synonyms, conceptual similarity.
 
@@ -409,9 +423,9 @@ Combining both means neither failure mode silently dominates the result set.
 
 The dense path converts the user query into an **embedding** and searches the configured vector store.
 
-| Environment | Backend |
-|---|---|
-| **Production** | PostgreSQL + pgvector |
+| Environment     | Backend                                             |
+| --------------- | --------------------------------------------------- |
+| **Production**  | PostgreSQL + pgvector                               |
 | **Development** | Lightweight local / in-memory vector implementation |
 
 The **storage abstraction** isolates vector operations from the orchestration layer — swapping backends does not touch retrieval logic.
@@ -445,7 +459,7 @@ tenant_id
 
 # ⚖️ Reciprocal Rank Fusion
 
-Independent retrieval strategies produce **separate rankings with non-comparable raw scores**. Rather than trying to normalize those scores against each other, the system fuses the *rankings*:
+Independent retrieval strategies produce **separate rankings with non-comparable raw scores**. Rather than trying to normalize those scores against each other, the system fuses the _rankings_:
 
 ```text
 RRF(d) = Σ  1 / (k + rank(d))
@@ -453,7 +467,7 @@ RRF(d) = Σ  1 / (k + rank(d))
 
 where `rank(d)` is the position of document `d` in an individual retrieval result set, and `k` is a smoothing constant.
 
-> 💡 **The important architectural property:** retrieval strategies remain fully **independent**, while their ranked outputs are combined *before* reranking. No strategy needs to know about the others.
+> 💡 **The important architectural property:** retrieval strategies remain fully **independent**, while their ranked outputs are combined _before_ reranking. No strategy needs to know about the others.
 
 ---
 
@@ -480,15 +494,15 @@ This separation means the **reranking implementation can change without rewritin
 
 The context builder is responsible for:
 
-| Responsibility | Why it matters |
-|---|---|
-| Selecting relevant chunks | Precision over volume |
-| Limiting total context size | Controls prompt cost & latency |
-| Preserving document metadata | Enables attribution |
-| Preserving citation information | Enables traceability |
-| Maintaining tenant boundaries | Prevents cross-tenant leakage |
-| Avoiding unnecessary expansion | Reduces noise & distraction |
-| Producing deterministic structure | Makes evaluation repeatable |
+| Responsibility                    | Why it matters                 |
+| --------------------------------- | ------------------------------ |
+| Selecting relevant chunks         | Precision over volume          |
+| Limiting total context size       | Controls prompt cost & latency |
+| Preserving document metadata      | Enables attribution            |
+| Preserving citation information   | Enables traceability           |
+| Maintaining tenant boundaries     | Prevents cross-tenant leakage  |
+| Avoiding unnecessary expansion    | Reduces noise & distraction    |
+| Producing deterministic structure | Makes evaluation repeatable    |
 
 **Token-aware context construction** helps control prompt size and reduces unnecessary retrieval payload.
 
@@ -561,15 +575,15 @@ Authorization is performed **before** protected operations.
 
 The project distinguishes four separate concerns:
 
-| Concern | Question it answers |
-|---|---|
-| **Authentication** | Who is this caller? |
-| **Tenant identification** | Which tenant scope do they belong to? |
-| **Role / permission checks** | What are they allowed to do? |
-| **Administrative target selection** | May they act on *another* tenant? |
+| Concern                             | Question it answers                   |
+| ----------------------------------- | ------------------------------------- |
+| **Authentication**                  | Who is this caller?                   |
+| **Tenant identification**           | Which tenant scope do they belong to? |
+| **Role / permission checks**        | What are they allowed to do?          |
+| **Administrative target selection** | May they act on _another_ tenant?     |
 
 - ❌ Normal users **cannot** elevate privileges by injecting arbitrary headers.
-- ✅ Administrator-only operations **can** explicitly target another tenant — *when the authorization policy permits it*.
+- ✅ Administrator-only operations **can** explicitly target another tenant — _when the authorization policy permits it_.
 
 > 🔑 **The key security property:** tenant targeting is an **authorized administrative capability**, not a generic client override.
 
@@ -646,7 +660,7 @@ The ingestion layer validates:
 
 The upload pipeline **must not assume** that a client-controlled filename or content type is trustworthy.
 
-**Security validation occurs *before* the document is accepted** into the normal processing pipeline.
+**Security validation occurs _before_ the document is accepted** into the normal processing pipeline.
 
 ---
 
@@ -654,10 +668,10 @@ The upload pipeline **must not assume** that a client-controlled filename or con
 
 Rate limiting reduces abuse and accidental resource exhaustion.
 
-| Environment | Backend |
-|---|---|
+| Environment                  | Backend                                   |
+| ---------------------------- | ----------------------------------------- |
 | **Production (distributed)** | Redis as the shared rate-limiting backend |
-| **Development** | In-process limiter where appropriate |
+| **Development**              | In-process limiter where appropriate      |
 
 > ⚠️ The production design **avoids relying exclusively on process-local memory** when multiple application instances are expected to share the same rate limit.
 
@@ -683,18 +697,18 @@ flowchart TD
 
 # 🎭 Threat Model
 
-The system assumes the following — every one of these is treated as *expected*, not exceptional:
+The system assumes the following — every one of these is treated as _expected_, not exceptional:
 
-| Assumption |
-|---|
-| 🎭 API clients may be **malicious** |
-| 📁 Uploaded files may be **malicious** |
-| 📨 Request headers may be **forged** |
-| 🏷️ User-controlled metadata **cannot be trusted** |
-| 🔑 Credentials may be **invalid, stolen, or rotated** |
+| Assumption                                                                     |
+| ------------------------------------------------------------------------------ |
+| 🎭 API clients may be **malicious**                                            |
+| 📁 Uploaded files may be **malicious**                                         |
+| 📨 Request headers may be **forged**                                           |
+| 🏷️ User-controlled metadata **cannot be trusted**                              |
+| 🔑 Credentials may be **invalid, stolen, or rotated**                          |
 | 🏢 A tenant may **intentionally attempt** to access another tenant's resources |
-| 🤖 Model output may contain **unsupported statements** |
-| 💥 Infrastructure dependencies **may become unavailable** |
+| 🤖 Model output may contain **unsupported statements**                         |
+| 💥 Infrastructure dependencies **may become unavailable**                      |
 
 The security model therefore establishes **explicit trust boundaries**.
 
@@ -879,14 +893,14 @@ These are **intentionally separate concepts**:
 
 ### 💓 Health check
 
-> *Is the application process **alive**?*
+> _Is the application process **alive**?_
 
 </td>
 <td width="50%" valign="top">
 
 ### ✅ Readiness check
 
-> *Is the application capable of **serving traffic safely**?*
+> _Is the application capable of **serving traffic safely**?_
 
 </td>
 </tr>
@@ -971,14 +985,14 @@ Upload Error              Rate Limit Error
 
 The application exposes HTTP APIs through FastAPI. Typical operations include:
 
-| Category | Operations |
-|---|---|
-| 🔑 **Auth** | authentication, token issuance |
-| 📥 **Documents** | upload, list, delete, manage |
-| 🔍 **Retrieval** | search, hybrid query |
-| 💬 **Q&A** | grounded question answering |
-| ❤️ **Ops** | health, readiness |
-| 🛠️ **Admin** | administrative, tenant-scoped operations |
+| Category         | Operations                               |
+| ---------------- | ---------------------------------------- |
+| 🔑 **Auth**      | authentication, token issuance           |
+| 📥 **Documents** | upload, list, delete, manage             |
+| 🔍 **Retrieval** | search, hybrid query                     |
+| 💬 **Q&A**       | grounded question answering              |
+| ❤️ **Ops**       | health, readiness                        |
+| 🛠️ **Admin**     | administrative, tenant-scoped operations |
 
 > ℹ️ Exact routes are **implementation details of the current API version** and should be verified against the running OpenAPI schema.
 > FastAPI automatically exposes API documentation when enabled — typically at `/docs` and `/redoc`.
@@ -1106,18 +1120,18 @@ Create an environment file based on the project's environment template.
 
 Typical configuration categories:
 
-| Category | Example variables |
-|---|---|
-| **Database** | `DATABASE_URL` |
-| **Cache / limits** | `REDIS_URL` |
-| **Auth** | `API_KEY`, auth configuration |
-| **Model** | model provider & name |
-| **Embeddings** | embedding model & dimensions |
-| **RAG** | chunk size, top-k, RRF `k`, token budget |
-| **Rate limiting** | window, max requests, backend |
-| **Uploads** | max file size, allowed types |
-| **Logging** | level, format, privacy policy |
-| **Environment** | `ENVIRONMENT=development \| staging \| production` |
+| Category           | Example variables                                  |
+| ------------------ | -------------------------------------------------- |
+| **Database**       | `DATABASE_URL`                                     |
+| **Cache / limits** | `REDIS_URL`                                        |
+| **Auth**           | `API_KEY`, auth configuration                      |
+| **Model**          | model provider & name                              |
+| **Embeddings**     | embedding model & dimensions                       |
+| **RAG**            | chunk size, top-k, RRF `k`, token budget           |
+| **Rate limiting**  | window, max requests, backend                      |
+| **Uploads**        | max file size, allowed types                       |
+| **Logging**        | level, format, privacy policy                      |
+| **Environment**    | `ENVIRONMENT=development \| staging \| production` |
 
 > 🚨 **Secrets should be injected through the runtime environment or a dedicated secret-management mechanism.**
 > **Do not commit real credentials to source control.**
@@ -1148,23 +1162,24 @@ Production environments must **explicitly** configure:
 
 RAG evaluation should consider **multiple dimensions** rather than relying only on whether an answer was generated.
 
-| Dimension | What it measures |
-|---|---|
-| Retrieval relevance | Did the right chunks come back? |
-| Context relevance | Was the assembled context useful? |
-| Recall | Were all needed documents found? |
-| Precision | Were irrelevant documents excluded? |
-| MRR | How high did the first correct result rank? |
-| Answer groundedness | Is every claim supported by evidence? |
-| Citation accuracy | Do citations point at the right sources? |
-| Answer similarity | Closeness to the reference answer |
-| Response latency | Time to first / full response |
+| Dimension           | What it measures                            |
+| ------------------- | ------------------------------------------- |
+| Retrieval relevance | Did the right chunks come back?             |
+| Context relevance   | Was the assembled context useful?           |
+| Recall              | Were all needed documents found?            |
+| Precision           | Were irrelevant documents excluded?         |
+| MRR                 | How high did the first correct result rank? |
+| Answer groundedness | Is every claim supported by evidence?       |
+| Citation accuracy   | Do citations point at the right sources?    |
+| Answer similarity   | Closeness to the reference answer           |
+| Response latency    | Time to first / full response               |
 
 Evaluation must **clearly distinguish** between:
 
 ```text
 Synthetic / Offline Evaluation
 ```
+
 ```text
 Live Evaluation Against Real Infrastructure
 ```
@@ -1188,17 +1203,17 @@ Evaluation datasets should contain **representative questions and expected evide
 
 A benchmark must document:
 
-| Item | Why |
-|---|---|
-| Dataset source | Provenance & licensing |
-| Dataset size | Statistical meaning |
-| Retrieval configuration | top-k, fusion, reranking on/off |
-| Model configuration | Generator + embedding model versions |
-| Environment | dev / staging / production |
-| Hardware | CPU/GPU, memory, region |
-| Latency measurement method | Cold vs warm, percentile used |
-| Metric definitions | Exact formula per metric |
-| Pass/fail criteria | Decided *before* the run |
+| Item                       | Why                                  |
+| -------------------------- | ------------------------------------ |
+| Dataset source             | Provenance & licensing               |
+| Dataset size               | Statistical meaning                  |
+| Retrieval configuration    | top-k, fusion, reranking on/off      |
+| Model configuration        | Generator + embedding model versions |
+| Environment                | dev / staging / production           |
+| Hardware                   | CPU/GPU, memory, region              |
+| Latency measurement method | Cold vs warm, percentile used        |
+| Metric definitions         | Exact formula per metric             |
+| Pass/fail criteria         | Decided _before_ the run             |
 
 > 💡 Documenting these prevents benchmark values from being **interpreted without context**.
 
@@ -1285,7 +1300,7 @@ mypy .
 ```
 
 > ℹ️ The exact command may vary with the repository configuration.
-> ⚠️ **Static-analysis results should be reported using the results of the *current* commit** — never copied from an older verification run.
+> ⚠️ **Static-analysis results should be reported using the results of the _current_ commit** — never copied from an older verification run.
 
 ---
 
@@ -1400,19 +1415,20 @@ Attempt to disable mandatory grounding via a client-controlled request parameter
 
 Current verified execution status tied to Git commit [`af2e43c`](file:///k:/Downloads/rag_project):
 
-| Check | Result | Commit / Source | Date | Environment |
-| :--- | :--- | :--- | :--- | :--- |
-| **pytest** | 450/450 passed (100%), 0 failed, 0 skipped, 0 errors | `af2e43c` | 2026-09-17 | Windows 11 / Python 3.12.13 |
-| **ruff check** | 0 issues (All checks passed!) | `af2e43c` | 2026-09-17 | Windows 11 / Ruff 0.16.6 |
-| **ruff format** | 251 files formatted and verified clean | `af2e43c` | 2026-09-17 | Windows 11 / Ruff 0.16.6 |
-| **mypy (strict)** | 0 issues in 234 source files | `af2e43c` | 2026-09-17 | Windows 11 / Mypy 2.3.1 |
-| **Live HTTP Server Verification** | 7/7 suites passed (startup, OpenAPI 17 routes, `/health`, `/ready`, API smoke test with doc upload/query, tenant isolation & spoofing blocks, invalid-key rate limiting, grounding bypass enforcement) | `af2e43c` | 2026-09-17 | Local TCP `127.0.0.1:8000` / Uvicorn |
-| **16-Step Smoke Test** | 16/16 steps passed cleanly | `af2e43c` | 2026-09-17 | Windows 11 / Local SQLite + In-Memory |
-| **Distribution Hygiene** | 100% clean archive (`dist/domain_rag_release.zip`) | `af2e43c` | 2026-09-17 | 0 caches, 0 `.pyc`, 0 `.db`, 0 uploads, 0 `.env` |
-| **Eval — synthetic offline** | 16/16 samples passed (`MockLLMJudge`) | `af2e43c` | 2026-09-17 | Offline Golden Dataset (16 samples) |
-| **Docker verification** | **NOT RUN — Docker unavailable** (Docker CLI not installed on host) | `af2e43c` | 2026-09-17 | Host environment limitation (honest reporting) |
+| Check                             | Result                                                                                                                                                                                                 | Commit / Source | Date       | Environment                                      |
+| :-------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-------------- | :--------- | :----------------------------------------------- |
+| **pytest**                        | 450/450 passed (100%), 0 failed, 0 skipped, 0 errors                                                                                                                                                   | `af2e43c`       | 2026-09-17 | Windows 11 / Python 3.12.13                      |
+| **ruff check**                    | 0 issues (All checks passed!)                                                                                                                                                                          | `af2e43c`       | 2026-09-17 | Windows 11 / Ruff 0.16.6                         |
+| **ruff format**                   | 251 files formatted and verified clean                                                                                                                                                                 | `af2e43c`       | 2026-09-17 | Windows 11 / Ruff 0.16.6                         |
+| **mypy (strict)**                 | 0 issues in 234 source files                                                                                                                                                                           | `af2e43c`       | 2026-09-17 | Windows 11 / Mypy 2.3.1                          |
+| **Live HTTP Server Verification** | 7/7 suites passed (startup, OpenAPI 17 routes, `/health`, `/ready`, API smoke test with doc upload/query, tenant isolation & spoofing blocks, invalid-key rate limiting, grounding bypass enforcement) | `af2e43c`       | 2026-09-17 | Local TCP `127.0.0.1:8000` / Uvicorn             |
+| **16-Step Smoke Test**            | 16/16 steps passed cleanly                                                                                                                                                                             | `af2e43c`       | 2026-09-17 | Windows 11 / Local SQLite + In-Memory            |
+| **Distribution Hygiene**          | 100% clean archive (`dist/domain_rag_release.zip`)                                                                                                                                                     | `af2e43c`       | 2026-09-17 | 0 caches, 0 `.pyc`, 0 `.db`, 0 uploads, 0 `.env` |
+| **Eval — synthetic offline**      | 16/16 samples passed (`MockLLMJudge`)                                                                                                                                                                  | `af2e43c`       | 2026-09-17 | Offline Golden Dataset (16 samples)              |
+| **Docker verification**           | **NOT RUN — Docker unavailable** (Docker CLI not installed on host)                                                                                                                                    | `af2e43c`       | 2026-09-17 | Host environment limitation (honest reporting)   |
 
 > 🔒 **Rules for this section**
+>
 > 1. Every number is reproducible from the current repository state.
 > 2. Every benchmark states dataset, environment and measurement method.
 > 3. If a check was not run, it is explicitly reported as **"Not run"** with the reason.
@@ -1425,11 +1441,11 @@ Current verified execution status tied to Git commit [`af2e43c`](file:///k:/Down
 This README **intentionally does not hard-code historical claims** such as:
 
 | ❌ Never write this without a current run |
-|---|
-| `449/449 tests passed` |
-| `100% security` |
-| `84.5 ms latency` |
-| `100% production ready` |
+| ----------------------------------------- |
+| `449/449 tests passed`                    |
+| `100% security`                           |
+| `84.5 ms latency`                         |
+| `100% production ready`                   |
 
 Those values should only be added **after the corresponding verification has actually been executed against the current repository state**, and they belong in [Verification Results](#-verification-results) with their commit SHA attached.
 
@@ -1469,7 +1485,7 @@ Dense retrieval captures **semantic similarity** while lexical retrieval preserv
 
 <br>
 
-RRF combines **independently ranked** retrieval results *without requiring raw scores from different systems to be directly comparable*. Score normalization across heterogeneous retrievers is fragile; rank fusion is not.
+RRF combines **independently ranked** retrieval results _without requiring raw scores from different systems to be directly comparable_. Score normalization across heterogeneous retrievers is fragile; rank fusion is not.
 
 </details>
 
@@ -1505,7 +1521,7 @@ It **lowers local setup requirements** and allows contributors to work without s
 
 <br>
 
-**Retrieval itself must respect authorization boundaries.** Filtering only *after* generation is insufficient — because unauthorized data must never enter the context supplied to the model. Once it is in the prompt, the boundary has already been crossed, regardless of what the final answer says.
+**Retrieval itself must respect authorization boundaries.** Filtering only _after_ generation is insufficient — because unauthorized data must never enter the context supplied to the model. Once it is in the prompt, the boundary has already been crossed, regardless of what the final answer says.
 
 </details>
 
@@ -1527,12 +1543,12 @@ The project intentionally balances five competing concerns:
    Evaluation
 ```
 
-| Choice | Gains | Costs |
-|---|---|---|
-| **Simpler architecture** | Fewer dependencies, faster setup | Weaker production guarantees |
+| Choice                    | Gains                                                | Costs                         |
+| ------------------------- | ---------------------------------------------------- | ----------------------------- |
+| **Simpler architecture**  | Fewer dependencies, faster setup                     | Weaker production guarantees  |
 | **Full production stack** | Distributed rate limiting, persistent vector storage | Higher operational complexity |
 
-> 💡 There is no free lunch here. The project chooses **production-grade guarantees** and pays for them with **operational complexity** — while keeping the *development* path lightweight so contributors aren't blocked by it.
+> 💡 There is no free lunch here. The project chooses **production-grade guarantees** and pays for them with **operational complexity** — while keeping the _development_ path lightweight so contributors aren't blocked by it.
 
 ---
 
@@ -1540,14 +1556,14 @@ The project intentionally balances five competing concerns:
 
 > ⚠️ **This repository should not be described as universally secure or universally production-ready without environment-specific validation.**
 
-| Limitation |
-|---|
-| 🤖 Model quality depends on the **selected generation and embedding models** |
-| 🔍 Retrieval quality depends on **document quality and chunking** |
-| 📊 Evaluation numbers depend on the **evaluation dataset** |
-| ⏱️ Latency depends on **infrastructure and model providers** |
-| 💻 Local development storage **does not represent production-scale storage** |
-| 🌐 External dependencies **can affect system availability** |
+| Limitation                                                                                            |
+| ----------------------------------------------------------------------------------------------------- |
+| 🤖 Model quality depends on the **selected generation and embedding models**                          |
+| 🔍 Retrieval quality depends on **document quality and chunking**                                     |
+| 📊 Evaluation numbers depend on the **evaluation dataset**                                            |
+| ⏱️ Latency depends on **infrastructure and model providers**                                          |
+| 💻 Local development storage **does not represent production-scale storage**                          |
+| 🌐 External dependencies **can affect system availability**                                           |
 | 🔐 Deployment security depends on **reverse proxy, TLS, network and secret management** configuration |
 
 ---
@@ -1635,15 +1651,15 @@ A representative structure:
 
 # ⌨️ Development Commands
 
-| Task | Command |
-|---|---|
-| Run tests | `pytest -q` |
-| Verbose tests | `pytest -v` |
-| Lint | `ruff check .` |
-| Type check | `mypy .` |
+| Task          | Command                         |
+| ------------- | ------------------------------- |
+| Run tests     | `pytest -q`                     |
+| Verbose tests | `pytest -v`                     |
+| Lint          | `ruff check .`                  |
+| Type check    | `mypy .`                        |
 | Run API (dev) | `uvicorn <module>:app --reload` |
-| Build images | `docker compose build` |
-| Start stack | `docker compose up` |
+| Build images  | `docker compose build`          |
+| Start stack   | `docker compose up`             |
 
 > ℹ️ The exact module path should follow the repository's current structure.
 
@@ -1656,6 +1672,7 @@ A representative structure:
 <td width="50%" valign="top">
 
 **Retrieval & Quality**
+
 - stronger automated retrieval evaluation
 - larger domain-specific golden datasets
 - configurable reranking models
@@ -1667,6 +1684,7 @@ A representative structure:
 <td width="50%" valign="top">
 
 **Platform & Ops**
+
 - asynchronous ingestion workers
 - background document processing
 - object storage integration
@@ -1690,6 +1708,7 @@ This project demonstrates practical experience across:
 <td width="33%" valign="top">
 
 **🤖 AI / ML**
+
 - RAG
 - LLM application architecture
 - Vector search
@@ -1703,6 +1722,7 @@ This project demonstrates practical experience across:
 <td width="33%" valign="top">
 
 **🔐 Security**
+
 - Authentication
 - Authorization
 - Multi-tenancy
@@ -1715,6 +1735,7 @@ This project demonstrates practical experience across:
 <td width="34%" valign="top">
 
 **⚙️ Engineering**
+
 - Python
 - FastAPI
 - REST API design
@@ -1737,17 +1758,17 @@ This project demonstrates practical experience across:
 
 Production security depends on:
 
-| Factor |
-|---|
-| Infrastructure |
+| Factor                   |
+| ------------------------ |
+| Infrastructure           |
 | Deployment configuration |
-| Dependency versions |
-| Secret management |
-| TLS configuration |
-| Network controls |
-| Database permissions |
-| Model providers |
-| Operational procedures |
+| Dependency versions      |
+| Secret management        |
+| TLS configuration        |
+| Network controls         |
+| Database permissions     |
+| Model providers          |
+| Operational procedures   |
 
 **Security verification should therefore be repeated for every deployment environment.**
 
